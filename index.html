@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Lastro Contabilidade | Contabilidade que você lê sem dicionário</title>
+  <meta name="description" content="Site de demonstração de um escritório contábil fictício para pequenas empresas: simulador de regime tributário, custo de contratar um funcionário, prazos do mês e planos. Feito pela Mil e Uma Linhas!.">
+  <meta name="theme-color" content="#F5F4EF">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/estilo.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+
+  <p class="faixa-demo">Demonstração da <a href="https://mileumalinhas.com.br" rel="noopener">Mil e Uma Linhas!</a>. Empresa, pessoas, valores e prazos são fictícios. Nada é enviado nem cobrado.</p>
+
+  <header class="topo">
+    <div class="caixa topo-linha">
+      <a class="marca" href="#inicio" aria-label="Lastro Contabilidade, início">
+        <span class="marca-sinal" aria-hidden="true"></span>
+        <span class="marca-nome">Lastro</span>
+        <span class="marca-sub">Contabilidade</span>
+      </a>
+      <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="menu-botao-texto">Menu</span>
+        <span class="menu-botao-icone" aria-hidden="true"></span>
+      </button>
+      <nav id="menu" class="menu" aria-label="Seções do site">
+        <a href="#servicos">Serviços</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#custo">Custo de contratar</a>
+        <a href="#prazos">Prazos</a>
+        <a href="#planos">Planos</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <!-- HERO -->
+    <section id="inicio" class="hero" aria-labelledby="hero-titulo">
+      <div class="caixa hero-grade">
+        <div class="hero-texto">
+          <h1 id="hero-titulo">Contabilidade que você lê sem dicionário.</h1>
+          <p class="hero-apoio">Somos um escritório pequeno, em Cuiabá, para empresas pequenas. Entregamos os números do seu mês em uma folha que você entende, e ficamos ao lado quando a decisão é sua.</p>
+          <div class="hero-acoes">
+            <a class="botao botao-primario" href="#simulador">Simular meu imposto</a>
+            <a class="botao botao-secundario" href="#planos">Ver planos e preços</a>
+          </div>
+          <dl class="hero-dados">
+            <div><dt>Empresas atendidas</dt><dd><span class="num" data-conta="312">312</span></dd></div>
+            <div><dt>Fechamento médio</dt><dd><span class="num" data-conta="4" data-sufixo=" dias">4 dias</span></dd></div>
+            <div><dt>Multas por atraso em 2026</dt><dd><span class="num">0</span></dd></div>
+          </dl>
+        </div>
+
+        <div class="folha" role="img" aria-label="Painel ilustrativo de apuração do mês: faturamento de 48.200 reais, DAS do Simples de 2.916 reais, FGTS de 1.104 reais, pró-labore de 2.824 reais, saldo a pagar de 6.844 reais, conferido.">
+          <div class="folha-cabecalho">
+            <span>Apuração do mês</span>
+            <span class="mono">out/2026</span>
+          </div>
+          <table class="folha-tabela" aria-hidden="true">
+            <tbody>
+              <tr><th>Faturamento bruto</th><td class="mono"><span data-conta="48200" data-moeda>R$ 48.200,00</span></td></tr>
+              <tr><th>DAS Simples Nacional</th><td class="mono"><span data-conta="2916" data-moeda>R$ 2.916,00</span></td></tr>
+              <tr><th>FGTS da equipe</th><td class="mono"><span data-conta="1104" data-moeda>R$ 1.104,00</span></td></tr>
+              <tr><th>Pró-labore e INSS</th><td class="mono"><span data-conta="2824" data-moeda>R$ 2.824,00</span></td></tr>
+            </tbody>
+            <tfoot>
+              <tr><th>Saldo a pagar no mês</th><td class="mono destaque"><span data-conta="6844" data-moeda>R$ 6.844,00</span></td></tr>
+            </tfoot>
+          </table>
+          <div class="folha-rodape" aria-hidden="true">
+            <span class="carimbo">Conferido</span>
+            <span class="folha-nota">4 guias, todas no prazo</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVIÇOS -->
+    <section id="servicos" class="secao" aria-labelledby="servicos-titulo">
+      <div class="caixa">
+        <header class="secao-cabecalho">
+          <h2 id="servicos-titulo">O que fazemos pela sua empresa</h2>
+          <p>Seis serviços, cada um com um entregável claro. Clique em qualquer linha para ver o que está incluído.</p>
+        </header>
+        <ul class="servicos">
+          <li>
+            <details>
+              <summary><span class="servico-nome">Abertura de empresa</span><span class="servico-prazo mono">de 7 a 15 dias</span></summary>
+              <p>Escolhemos com você o tipo de empresa e o regime, fazemos o registro na Junta Comercial, o CNPJ, a inscrição municipal e o alvará. Você recebe um checklist com cada etapa e a data em que ficou pronta.</p>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary><span class="servico-nome">Contabilidade mensal</span><span class="servico-prazo mono">fechamento até o dia 10</span></summary>
+              <p>Lançamentos, conciliação bancária, balancete e guias de imposto. Todo mês você recebe a folha de apuração em uma página, com o que pagar, quando e por quê.</p>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary><span class="servico-nome">Folha de pagamento</span><span class="servico-prazo mono">holerites até o dia 28</span></summary>
+              <p>Admissão, férias, rescisão, eSocial e FGTS. Cada contratação vem com a simulação do custo total antes de assinar.</p>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary><span class="servico-nome">Planejamento tributário</span><span class="servico-prazo mono">revisão anual em novembro</span></summary>
+              <p>Comparamos Simples, Presumido e Real com os seus números reais e mostramos a diferença em reais por ano. A troca de regime só vale em janeiro, por isso fazemos a conta antes.</p>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary><span class="servico-nome">Consultoria financeira</span><span class="servico-prazo mono">reunião mensal de 50 min</span></summary>
+              <p>Fluxo de caixa, formação de preço, margem por produto e ponto de equilíbrio. Saímos da reunião com três números para acompanhar no mês seguinte.</p>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary><span class="servico-nome">Regularização de pendências</span><span class="servico-prazo mono">diagnóstico em 48 h</span></summary>
+              <p>Levantamos débitos, declarações atrasadas e certidões negativas. Você recebe a lista do que existe, o custo de resolver cada item e a ordem que recomendamos.</p>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SIMULADOR -->
+    <section id="simulador" class="secao secao-pauta" aria-labelledby="sim-titulo">
+      <div class="caixa">
+        <header class="secao-cabecalho">
+          <h2 id="sim-titulo">Simulador de regime tributário</h2>
+          <p>Preencha quatro números e veja, lado a lado, quanto a sua empresa pagaria por mês no Simples Nacional, no Lucro Presumido e no Lucro Real.</p>
+        </header>
+
+        <p class="aviso" role="note"><strong>Simulação ilustrativa.</strong> As contas usam tabelas e alíquotas simplificadas e não consideram créditos, benefícios fiscais, substituição tributária nem a situação específica do seu negócio. Serve para entender a lógica, não para decidir. A conta de verdade é feita por nós, com seus documentos.</p>
+
+        <div class="duas-colunas">
+          <form class="formulario" id="sim-form" novalidate>
+            <div class="campo">
+              <label for="sim-faturamento">Faturamento mensal médio</label>
+              <div class="campo-moeda">
+                <span aria-hidden="true">R$</span>
+                <input id="sim-faturamento" name="faturamento" type="text" inputmode="decimal" value="40.000" autocomplete="off" aria-describedby="sim-faturamento-ajuda">
+              </div>
+              <p id="sim-faturamento-ajuda" class="ajuda">Receita bruta, antes de qualquer desconto. Usamos 12 vezes este valor como receita anual.</p>
+            </div>
+
+            <div class="campo">
+              <label for="sim-folha">Folha de pagamento mensal (com pró-labore)</label>
+              <div class="campo-moeda">
+                <span aria-hidden="true">R$</span>
+                <input id="sim-folha" name="folha" type="text" inputmode="decimal" value="8.000" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="sim-custos">Despesas e custos mensais (sem folha)</label>
+              <div class="campo-moeda">
+                <span aria-hidden="true">R$</span>
+                <input id="sim-custos" name="custos" type="text" inputmode="decimal" value="18.000" autocomplete="off">
+              </div>
+              <p class="ajuda">Aluguel, mercadorias, insumos, serviços. Só influencia o Lucro Real, que tributa o lucro de verdade.</p>
+            </div>
+
+            <fieldset class="campo">
+              <legend>Atividade principal</legend>
+              <div class="opcoes">
+                <label class="opcao"><input type="radio" name="atividade" value="comercio" checked> Comércio</label>
+                <label class="opcao"><input type="radio" name="atividade" value="industria"> Indústria</label>
+                <label class="opcao"><input type="radio" name="atividade" value="servicos"> Serviços</label>
+              </div>
+            </fieldset>
+
+            <div class="campo">
+              <label for="sim-local">Imposto estadual ou municipal (ICMS ou ISS) fora do Simples</label>
+              <div class="campo-moeda campo-pct">
+                <input id="sim-local" name="local" type="number" inputmode="decimal" min="0" max="30" step="0.5" value="5" aria-describedby="sim-local-ajuda">
+                <span aria-hidden="true">%</span>
+              </div>
+              <p id="sim-local-ajuda" class="ajuda">No Simples esse imposto já está dentro da guia única. No Presumido e no Real ele é pago à parte; a alíquota varia por cidade, estado e produto.</p>
+            </div>
+
+            <p class="erro" id="sim-erro" role="alert" hidden></p>
+          </form>
+
+          <div class="resultado" aria-live="polite" id="sim-resultado">
+            <p class="resultado-rotulo">Regime mais barato nesta simulação</p>
+            <p class="resultado-nome" id="sim-melhor-nome">Simples Nacional</p>
+            <p class="resultado-numero mono" id="sim-melhor-valor">R$ 0,00<span class="resultado-unidade">/mês</span></p>
+            <p class="resultado-nota" id="sim-melhor-nota"></p>
+
+            <table class="tabela" id="sim-tabela">
+              <caption class="visualmente-oculto">Comparação mensal entre regimes</caption>
+              <thead>
+                <tr><th scope="col">Regime</th><th scope="col" class="num-col">Por mês</th><th scope="col" class="num-col">% da receita</th></tr>
+              </thead>
+              <tbody>
+                <tr data-regime="simples"><th scope="row">Simples Nacional <small id="sim-anexo"></small></th><td class="mono num-col" data-valor></td><td class="mono num-col" data-pct></td></tr>
+                <tr data-regime="presumido"><th scope="row">Lucro Presumido</th><td class="mono num-col" data-valor></td><td class="mono num-col" data-pct></td></tr>
+                <tr data-regime="real"><th scope="row">Lucro Real</th><td class="mono num-col" data-valor></td><td class="mono num-col" data-pct></td></tr>
+              </tbody>
+            </table>
+
+            <div class="barras" id="sim-barras" aria-hidden="true">
+              <div class="barra" data-regime="simples"><span class="barra-rotulo">Simples</span><span class="barra-trilho"><span class="barra-valor"></span></span></div>
+              <div class="barra" data-regime="presumido"><span class="barra-rotulo">Presumido</span><span class="barra-trilho"><span class="barra-valor"></span></span></div>
+              <div class="barra" data-regime="real"><span class="barra-rotulo">Real</span><span class="barra-trilho"><span class="barra-valor"></span></span></div>
+            </div>
+
+            <details class="memoria">
+              <summary>Ver a memória de cálculo</summary>
+              <div id="sim-memoria"></div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTO DE FUNCIONÁRIO -->
+    <section id="custo" class="secao" aria-labelledby="custo-titulo">
+      <div class="caixa">
+        <header class="secao-cabecalho">
+          <h2 id="custo-titulo">Quanto custa contratar um funcionário</h2>
+          <p>Informe o salário e os benefícios e veja o custo mensal total para a empresa, com 13º, férias, FGTS e encargos já provisionados.</p>
+        </header>
+
+        <div class="duas-colunas">
+          <form class="formulario" id="custo-form" novalidate>
+            <div class="campo">
+              <label for="custo-salario">Salário bruto mensal</label>
+              <div class="campo-moeda">
+                <span aria-hidden="true">R$</span>
+                <input id="custo-salario" name="salario" type="text" inputmode="decimal" value="2.500" autocomplete="off">
+              </div>
+            </div>
+
+            <fieldset class="campo">
+              <legend>Regime da empresa</legend>
+              <div class="opcoes">
+                <label class="opcao"><input type="radio" name="regime" value="simples" checked> Simples Nacional</label>
+                <label class="opcao"><input type="radio" name="regime" value="outros"> Presumido ou Real</label>
+              </div>
+              <p class="ajuda">No Simples (anexos I a III) a parte patronal do INSS já está na guia única. Nos outros regimes ela é paga sobre a folha.</p>
+            </fieldset>
+
+            <div class="campo">
+              <label for="custo-vt">Vale-transporte por mês</label>
+              <div class="campo-moeda">
+                <span aria-hidden="true">R$</span>
+                <input id="custo-vt" name="vt" type="text" inputmode="decimal" value="220" autocomplete="off">
+              </div>
+              <p class="ajuda">A empresa pode descontar até 6% do salário do funcionário. Mostramos só a parte que sobra para a empresa.</p>
+            </div>
+
+            <div class="campo">
+              <label for="custo-vr">Vale-refeição ou alimentação por mês</label>
+              <div class="campo-moeda">
+                <span aria-hidden="true">R$</span>
+                <input id="custo-vr" name="vr" type="text" inputmode="decimal" value="600" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="custo-saude">Plano de saúde e outros benefícios por mês</label>
+              <div class="campo-moeda">
+                <span aria-hidden="true">R$</span>
+                <input id="custo-saude" name="saude" type="text" inputmode="decimal" value="0" autocomplete="off">
+              </div>
+            </div>
+
+            <p class="erro" id="custo-erro" role="alert" hidden></p>
+          </form>
+
+          <div class="resultado" aria-live="polite">
+            <p class="resultado-rotulo">Custo mensal total para a empresa</p>
+            <p class="resultado-numero mono" id="custo-total">R$ 0,00<span class="resultado-unidade">/mês</span></p>
+            <p class="resultado-nota" id="custo-multiplicador"></p>
+
+            <table class="tabela" id="custo-tabela">
+              <caption class="visualmente-oculto">Composição do custo mensal</caption>
+              <thead><tr><th scope="col">Item</th><th scope="col" class="num-col">Por mês</th></tr></thead>
+              <tbody id="custo-linhas"></tbody>
+              <tfoot><tr><th scope="row">Total</th><td class="mono num-col" id="custo-total-tabela"></td></tr></tfoot>
+            </table>
+
+            <p class="nota-pequena">Provisões: 13º salário (1/12), férias com um terço (1/12 × 1,333) e o FGTS sobre essas parcelas. Encargos patronais fora do Simples: INSS 20%, RAT 2% e terceiros 5,8%. Valores ilustrativos; convenção coletiva, grau de risco e adicionais mudam a conta.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRAZOS -->
+    <section id="prazos" class="secao secao-pauta" aria-labelledby="prazos-titulo">
+      <div class="caixa">
+        <header class="secao-cabecalho">
+          <h2 id="prazos-titulo">O que vence em novembro de 2026</h2>
+          <p>Calendário fictício de obrigações do mês. Filtre pelo regime da sua empresa e pelo tipo de obrigação para ver só o que interessa.</p>
+        </header>
+
+        <div class="filtros" role="group" aria-label="Filtros do calendário">
+          <fieldset class="filtro-grupo">
+            <legend>Regime</legend>
+            <label class="chip"><input type="radio" name="f-regime" value="todos" checked><span>Todos</span></label>
+            <label class="chip"><input type="radio" name="f-regime" value="mei"><span>MEI</span></label>
+            <label class="chip"><input type="radio" name="f-regime" value="simples"><span>Simples</span></label>
+            <label class="chip"><input type="radio" name="f-regime" value="presumido"><span>Presumido e Real</span></label>
+          </fieldset>
+          <fieldset class="filtro-grupo">
+            <legend>Tipo</legend>
+            <label class="chip"><input type="checkbox" name="f-tipo" value="imposto" checked><span>Impostos</span></label>
+            <label class="chip"><input type="checkbox" name="f-tipo" value="folha" checked><span>Folha</span></label>
+            <label class="chip"><input type="checkbox" name="f-tipo" value="declaracao" checked><span>Declarações</span></label>
+          </fieldset>
+          <p class="filtros-contagem" id="prazos-contagem" aria-live="polite"></p>
+        </div>
+
+        <ol class="agenda" id="agenda"></ol>
+        <p class="agenda-vazia" id="agenda-vazia" hidden>Nenhuma obrigação com estes filtros. Bom sinal, ou bom momento para revisar o filtro.</p>
+        <p class="nota-pequena">Datas, obrigações e descrições são de demonstração e podem não corresponder ao calendário oficial. Quando o vencimento cai em fim de semana ou feriado, a regra real pode antecipar ou adiar.</p>
+      </div>
+    </section>
+
+    <!-- PLANOS -->
+    <section id="planos" class="secao" aria-labelledby="planos-titulo">
+      <div class="caixa">
+        <header class="secao-cabecalho">
+          <h2 id="planos-titulo">Planos e mensalidades</h2>
+          <p>Três planos, sem taxa de adesão e sem fidelidade. Alterne entre pagamento mensal e anual para comparar.</p>
+        </header>
+
+        <div class="alternador" role="group" aria-label="Forma de pagamento">
+          <button type="button" class="alternador-botao ativo" data-periodo="mensal" aria-pressed="true">Mensal</button>
+          <button type="button" class="alternador-botao" data-periodo="anual" aria-pressed="false">Anual <span class="alternador-nota">2 meses grátis</span></button>
+        </div>
+
+        <div class="planos-rolagem">
+          <table class="tabela tabela-planos" id="planos-tabela">
+            <caption class="visualmente-oculto">Comparação dos planos</caption>
+            <thead>
+              <tr>
+                <th scope="col"><span class="visualmente-oculto">Item</span></th>
+                <th scope="col">Começo<span class="plano-para">MEI e empresas sem funcionários</span></th>
+                <th scope="col" class="plano-destaque">Rotina<span class="plano-para">Simples com até 5 funcionários</span></th>
+                <th scope="col">Decisão<span class="plano-para">Presumido, Real ou com consultoria</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="linha-preco">
+                <th scope="row">Mensalidade</th>
+                <td data-plano="Começo"><span class="preco mono" data-mensal="189" data-anual="158">R$ 189</span><span class="preco-unidade">/mês</span></td>
+                <td data-plano="Rotina" class="plano-destaque"><span class="preco mono" data-mensal="449" data-anual="374">R$ 449</span><span class="preco-unidade">/mês</span></td>
+                <td data-plano="Decisão"><span class="preco mono" data-mensal="890" data-anual="742">R$ 890</span><span class="preco-unidade">/mês</span></td>
+              </tr>
+              <tr><th scope="row">Contabilidade mensal e guias</th><td data-plano="Começo" data-sim>Sim</td><td data-plano="Rotina" class="plano-destaque" data-sim>Sim</td><td data-plano="Decisão" data-sim>Sim</td></tr>
+              <tr><th scope="row">Folha de pagamento</th><td data-plano="Começo" data-nao>Não</td><td data-plano="Rotina" class="plano-destaque" data-sim>Até 5 pessoas</td><td data-plano="Decisão" data-sim>Até 20 pessoas</td></tr>
+              <tr><th scope="row">Pró-labore dos sócios</th><td data-plano="Começo" data-sim>1 sócio</td><td data-plano="Rotina" class="plano-destaque" data-sim>Até 3 sócios</td><td data-plano="Decisão" data-sim>Sem limite</td></tr>
+              <tr><th scope="row">Planejamento tributário anual</th><td data-plano="Começo" data-nao>Não</td><td data-plano="Rotina" class="plano-destaque" data-sim>Sim</td><td data-plano="Decisão" data-sim>Sim, trimestral</td></tr>
+              <tr><th scope="row">Reunião de consultoria financeira</th><td data-plano="Começo" data-nao>Não</td><td data-plano="Rotina" class="plano-destaque" data-nao>Não</td><td data-plano="Decisão" data-sim>Mensal, 50 min</td></tr>
+              <tr><th scope="row">Atendimento</th><td data-plano="Começo">Mensagem, resposta em 1 dia útil</td><td data-plano="Rotina" class="plano-destaque">Mensagem e telefone, resposta em 4 h</td><td data-plano="Decisão">Contador dedicado</td></tr>
+              <tr><th scope="row">Certidões negativas</th><td data-plano="Começo" data-sim>Sob pedido</td><td data-plano="Rotina" class="plano-destaque" data-sim>Mensal, automática</td><td data-plano="Decisão" data-sim>Mensal, automática</td></tr>
+              <tr class="linha-acao">
+                <th scope="row"><span class="visualmente-oculto">Contratar</span></th>
+                <td data-plano="Começo"><a class="botao botao-secundario" href="#contato">Falar sobre o Começo</a></td>
+                <td data-plano="Rotina" class="plano-destaque"><a class="botao botao-primario" href="#contato">Falar sobre o Rotina</a></td>
+                <td data-plano="Decisão"><a class="botao botao-secundario" href="#contato">Falar sobre o Decisão</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="nota-pequena" id="planos-nota">Valores fictícios de demonstração. No anual, o total é dividido em 12 parcelas e o valor mostrado é a parcela.</p>
+      </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section id="sobre" class="secao secao-pauta" aria-labelledby="sobre-titulo">
+      <div class="caixa">
+        <header class="secao-cabecalho">
+          <h2 id="sobre-titulo">Quem faz as contas</h2>
+          <p>Uma equipe de quatro pessoas, todas com nome e telefone no seu contrato. Você fala com quem faz, não com um protocolo.</p>
+        </header>
+        <div class="equipe-e-vozes">
+          <table class="tabela tabela-equipe">
+            <caption class="visualmente-oculto">Equipe do escritório</caption>
+            <tbody>
+              <tr><th scope="row">Helena Vasconcelos Prado</th><td>Contadora responsável, CRC fictício MT-0000/O</td><td class="mono">14 anos de profissão</td></tr>
+              <tr><th scope="row">Tadeu Oliveira Ramos</th><td>Folha de pagamento e eSocial</td><td class="mono">9 anos</td></tr>
+              <tr><th scope="row">Marina Costa Lins</th><td>Planejamento tributário e consultoria financeira</td><td class="mono">11 anos</td></tr>
+              <tr><th scope="row">Caio Ribeiro Fontes</th><td>Abertura, regularização e certidões</td><td class="mono">6 anos</td></tr>
+            </tbody>
+          </table>
+          <div class="vozes">
+            <blockquote>
+              <p>"Pela primeira vez abri a planilha do contador e entendi tudo sem ligar para perguntar."</p>
+              <footer>Renata Albuquerque, dona de uma loja de tecidos fictícia</footer>
+            </blockquote>
+            <blockquote>
+              <p>"Mudamos de regime em janeiro com a conta na mão. Economizamos o equivalente a dois meses de aluguel no ano."</p>
+              <footer>Jorge Mendonça, sócio de uma oficina mecânica fictícia</footer>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato" class="secao" aria-labelledby="contato-titulo">
+      <div class="caixa">
+        <header class="secao-cabecalho">
+          <h2 id="contato-titulo">Fale com a gente</h2>
+          <p>Deixe seus dados e o que precisa. Nesta demonstração nada é enviado: o site só confere o formulário e mostra o resumo na tela.</p>
+        </header>
+        <div class="duas-colunas">
+          <form class="formulario" id="contato-form" novalidate>
+            <div class="campo">
+              <label for="ct-nome">Seu nome</label>
+              <input id="ct-nome" name="nome" type="text" autocomplete="name" required>
+            </div>
+            <div class="campo">
+              <label for="ct-email">E-mail</label>
+              <input id="ct-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="campo">
+              <label for="ct-empresa">Empresa (ou "ainda vou abrir")</label>
+              <input id="ct-empresa" name="empresa" type="text" autocomplete="organization">
+            </div>
+            <div class="campo">
+              <label for="ct-assunto">O que você precisa</label>
+              <select id="ct-assunto" name="assunto" required>
+                <option value="">Escolha uma opção</option>
+                <option>Abrir uma empresa</option>
+                <option>Trocar de contador</option>
+                <option>Revisar meu regime tributário</option>
+                <option>Regularizar pendências</option>
+                <option>Consultoria financeira</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label for="ct-mensagem">Mensagem</label>
+              <textarea id="ct-mensagem" name="mensagem" rows="4" required minlength="10"></textarea>
+            </div>
+            <p class="erro" id="ct-erro" role="alert" hidden></p>
+            <button class="botao botao-primario" type="submit">Conferir e ver o resumo</button>
+          </form>
+          <div>
+            <div class="resultado resultado-contato" id="ct-resumo" aria-live="polite" hidden>
+              <p class="resultado-rotulo">Resumo do que você escreveu</p>
+              <dl class="resumo-lista" id="ct-resumo-lista"></dl>
+              <p class="nota-pequena">Em um site de verdade, este resumo iria para o e-mail do escritório. Aqui ele fica só na sua tela.</p>
+            </div>
+            <address class="endereco">
+              <p><strong>Lastro Contabilidade</strong> (fictícia)</p>
+              <p>Rua das Palmeiras, 1000, sala 42, Cuiabá, MT</p>
+              <p>Telefone <span class="mono">(65) 0000-0000</span></p>
+              <p>Segunda a sexta, das 8h às 18h</p>
+            </address>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section id="como-funciona" class="secao secao-pauta" aria-labelledby="como-titulo">
+      <div class="caixa caixa-estreita">
+        <header class="secao-cabecalho">
+          <h2 id="como-titulo">Como isto funciona</h2>
+          <p>Este site é uma demonstração da Mil e Uma Linhas!. Aqui explicamos o que ele faz, para qualquer pessoa, e como funciona por dentro.</p>
+        </header>
+        <h3>Para quem só quer usar</h3>
+        <p>O site apresenta um escritório de contabilidade inventado e tem quatro ferramentas que funcionam de verdade: o simulador de regime tributário, a calculadora de custo de funcionário, o calendário de prazos com filtros e a tabela de planos que alterna entre mensal e anual. O formulário de contato confere o que você digitou e mostra um resumo, sem enviar nada. Nenhum dado seu sai do seu aparelho.</p>
+        <h3>Como funciona por dentro, em linguagem comum</h3>
+        <p>Tudo acontece no seu navegador. Quando você muda um número, um pequeno programa em JavaScript refaz a conta na hora, usando tabelas de alíquotas gravadas no próprio site, e redesenha os resultados. O calendário é uma lista gravada no site, e os filtros só escondem e mostram linhas. Não existe servidor, banco de dados nem cadastro: se você fechar a página, tudo volta ao começo. Isso também vale para a segurança: como o site não envia nem recebe nada, não há o que vazar.</p>
+        <details class="tecnico">
+          <summary>Detalhes técnicos</summary>
+          <ul>
+            <li>HTML, CSS e JavaScript puros, sem framework, sem biblioteca externa, sem CDN e sem analytics. Um único arquivo HTML, uma folha de estilo e um script.</li>
+            <li>Fontes Archivo (variável) e IBM Plex Mono servidas localmente em <code>fonts/</code>, licença SIL OFL, com os arquivos de licença no repositório.</li>
+            <li>Content-Security-Policy por meta: <code>default-src 'self'</code>, sem script inline, sem estilo inline (os valores dinâmicos, como largura de barra, usam <code>element.style.setProperty</code>, que a CSP permite), <code>connect-src 'none'</code> e <code>form-action 'none'</code>.</li>
+            <li>Simulador: Simples Nacional com as seis faixas dos anexos I, II, III e V (com Fator R para serviços), alíquota efetiva pela fórmula <code>(RBT12 × alíquota − parcela a deduzir) / RBT12</code>; Presumido com presunção de 8% ou 32% para IRPJ e 12% ou 32% para CSLL, PIS 0,65%, COFINS 3% e encargos patronais; Real com IRPJ e CSLL sobre o lucro informado, PIS 1,65% e COFINS 7,6% sem créditos.</li>
+            <li>Nenhum uso de <code>localStorage</code>, cookies ou qualquer armazenamento: cada visita começa do zero.</li>
+            <li>Acessibilidade: contraste AA, foco visível, formulários com rótulos, resultados em regiões <code>aria-live</code>, navegação por teclado, <code>prefers-reduced-motion</code> respeitado.</li>
+            <li>Testes com Playwright em <code>tests/site.cjs</code>: 1280×900, iPhone 13 e 320px, verificando erros de console, rolagem horizontal e as quatro funções.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="caixa rodape-grade">
+      <p class="rodape-marca">Lastro Contabilidade e Consultoria Financeira</p>
+      <p>Escritório fictício criado como demonstração. Nenhum serviço é prestado, nenhum valor é cobrado.</p>
+      <p>Site de demonstração da <a href="https://mileumalinhas.com.br" rel="noopener">Mil e Uma Linhas!</a>, Cuiabá. Sites e sistemas para quem quer ser entendido.</p>
+    </div>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
