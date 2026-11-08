@@ -34,12 +34,13 @@ Empresa, pessoas, CRC, endereço, telefone, depoimentos, preços e datas do cale
 
 ## Identidade visual, em resumo
 
-A ideia é a **folha de razão**: linhas finas, números alinhados à direita, um carimbo de "Conferido". Nada de cartões flutuando com sombra, nada de gradiente, nada de azul de banco.
+A ideia é a **folha de razão**: linhas finas, números alinhados à direita, a foto de um livro-caixa com carimbo no topo. Nada de cartões flutuando com sombra, nada de gradiente, nada de azul de banco.
 
 - **Paleta**: Papel `#F5F4EF` (fundo), Pauta `#E9E7DF` (faixas e campos), Fio `#CFCBBF` (linhas), Tinta `#1B2420` (texto), Grafite `#5B655F` (legendas), Petróleo `#0E5B55` (o único destaque de cada tela), Âmbar `#B9770E` (avisos e prazos próximos) e Ferrugem `#A63B2A` (só para valores negativos).
+- **Imagem forte**: uma foto de uma mesa de escritório com livro-caixa aberto, calculadora, café e carimbo (`img/hero.webp`). **A foto foi gerada por IA no Canva e é só ilustrativa**: a mesa e os valores do livro não existem. Os números do livro estão desfocados de propósito.
 - **Fontes**: Archivo (variável) para títulos e texto, IBM Plex Mono para todo número, valor e data. As duas são de licença aberta (SIL OFL) e ficam na pasta `fonts/`, sem Google Fonts nem CDN.
 - **Por quê**: em contabilidade o número é o produto. A fonte mono faz o visitante enxergar na hora que aquilo foi apurado, e o petróleo escuro sobre papel passa seriedade sem a cara genérica de banco.
-- **Movimento**: um único momento na abertura, quando os valores da folha de apuração contam até o número final e o carimbo aparece. Quem pede menos movimento no sistema (`prefers-reduced-motion`) vê tudo pronto.
+- **Movimento**: um único momento na abertura, quando os números do início (empresas atendidas, dias de fechamento) contam até o valor final. Quem pede menos movimento no sistema (`prefers-reduced-motion`) vê tudo pronto.
 
 O estudo completo está em [`docs/identidade.md`](docs/identidade.md).
 
@@ -59,7 +60,7 @@ Tudo acontece no seu navegador. Quando você muda um número, um programa em Jav
 
 ## Detalhes técnicos
 
-- HTML, CSS e JavaScript puros. Um `index.html`, um `assets/estilo.css`, um `assets/app.js`. Sem framework, sem biblioteca, sem CDN, sem analytics.
+- HTML, CSS e JavaScript puros. Um `index.html`, um `assets/estilo.css`, um `assets/app.js` e a foto `img/hero.webp`. Sem framework, sem biblioteca, sem CDN, sem analytics.
 - Content-Security-Policy por meta: `default-src 'self'`, sem script inline, sem estilo inline, `connect-src 'none'`, `form-action 'none'`. Larguras de barra são aplicadas por `element.style.setProperty`, que a CSP permite.
 - Simulador: Simples Nacional com as seis faixas dos anexos I, II, III e V, Fator R para serviços (folha dividida pela receita, 28%) e alíquota efetiva `(RBT12 × nominal − dedução) ÷ RBT12`. Presumido com presunção de 8% ou 32% para IRPJ e 12% ou 32% para CSLL, adicional de IRPJ sobre o que passa de R$ 20 mil por mês, PIS 0,65%, COFINS 3%, encargos patronais de 27,8% da folha e ICMS ou ISS informado. Real com IRPJ e CSLL sobre o lucro informado, PIS 1,65% e COFINS 7,6% sem créditos. Acima de R$ 4,8 milhões por ano o Simples sai da comparação.
 - Calculadora: 13º (1/12), férias com um terço (1/9), FGTS 8% sobre salário e provisões, encargos patronais de 27,8% fora do Simples, vale-transporte descontando 6% do salário.

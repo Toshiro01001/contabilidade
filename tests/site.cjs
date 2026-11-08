@@ -67,10 +67,17 @@ async function testarViewport(browser, vp) {
   const fontes = await page.evaluate(() => Promise.all([document.fonts.check("700 20px Archivo"), document.fonts.check("500 20px 'IBM Plex Mono'")]));
   ok(fontes[0] && fontes[1], "fontes Archivo e IBM Plex Mono carregadas");
 
-  /* Abertura: os números do hero fecharam e o carimbo apareceu */
-  const saldo = await page.textContent(".folha tfoot [data-conta]");
-  ok(limpo(saldo) === "R$ 6.844,00", "contagem da abertura terminou em R$ 6.844,00 (obtido: " + saldo.trim() + ")");
-  ok(await page.$eval(".folha", (el) => el.classList.contains("carimbado")), "carimbo 'Conferido' apareceu");
+  const hero = await checarHero(page, ".hero-texto");
+  ok(hero.existe && hero.carregou, "foto do hero carregou (1440x1080)");
+  ok(hero.existe && hero.alt, "foto do hero tem alt descritivo");
+  ok(hero.existe && Math.abs(hero.proporcao - 1.33) < 0.02, `contêiner do hero em 4:3 (${hero.proporcao})`);
+  ok(hero.existe && hero.cabe && hero.sobreposto === 0, `foto cabe na tela e nenhum texto do hero fica sobre ela (${hero.sobreposto} sobreposições)`);
+
+  /* Abertura: os números do hero terminaram a contagem */
+  const empresas = await page.textContent(".hero-dados [data-conta='312']");
+  ok(limpo(empresas) === "312", "contagem da abertura terminou em 312 empresas (obtido: " + limpo(empresas) + ")");
+  const fechamento = await page.textContent(".hero-dados [data-conta='4']");
+  ok(limpo(fechamento) === "4 dias", "contagem da abertura terminou em 4 dias (obtido: " + limpo(fechamento) + ")");
 
   /* Menu no celular */
   const menuVisivel = await page.isVisible(".menu-botao");
@@ -199,6 +206,33 @@ async function testarViewport(browser, vp) {
   }
 
   await context.close();
+}
+
+// Foto do hero: carregou, tem a proporção 4:3 e o texto do hero não encosta nela (legibilidade).
+async function checarHero(page, contSel) {
+  return page.evaluate((contSel) => {
+    const img = document.querySelector("img.hero-foto");
+    if (!img) return { existe: false };
+    const r = img.getBoundingClientRect();
+    const caixa = img.parentElement.getBoundingClientRect();
+    const raiz = document.querySelector(contSel) || document;
+    let sobreposto = 0;
+    for (const t of raiz.querySelectorAll("h1, p, a, dl, dt, dd")) {
+      const b = t.getBoundingClientRect();
+      if (!b.width || !b.height) continue;
+      const w = Math.min(b.right, r.right) - Math.max(b.left, r.left);
+      const h = Math.min(b.bottom, r.bottom) - Math.max(b.top, r.top);
+      if (w > 1 && h > 1) sobreposto++;
+    }
+    return {
+      existe: true,
+      carregou: img.complete && img.naturalWidth === 1440 && img.naturalHeight === 1080,
+      alt: (img.getAttribute("alt") || "").length > 20,
+      proporcao: Math.round((caixa.width / caixa.height) * 100) / 100,
+      cabe: r.left >= -1 && r.right <= document.documentElement.clientWidth + 1,
+      sobreposto
+    };
+  }, contSel);
 }
 
 (async () => {

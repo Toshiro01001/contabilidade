@@ -67,14 +67,11 @@
     });
   })();
 
-  /* ---------- Abertura: os números da folha "fecham" ---------- */
+  /* ---------- Abertura: os números do hero contam até o valor final ---------- */
   (function abertura() {
-    var folha = $(".folha");
     var alvos = $$("[data-conta]");
-    if (!folha || !alvos.length) return;
-    if (reduzMovimento) { folha.classList.add("carimbado"); return; }
+    if (!alvos.length || reduzMovimento) return; /* sem movimento, os números já estão prontos no HTML */
 
-    folha.classList.add("animando");
     var duracao = 1200;
     var inicio = null;
 
@@ -84,19 +81,9 @@
       var e = 1 - Math.pow(1 - p, 3);
       alvos.forEach(function (el) {
         var alvo = Number(el.getAttribute("data-conta"));
-        var atual = alvo * e;
-        if (el.hasAttribute("data-moeda")) {
-          el.textContent = moeda(p === 1 ? alvo : atual);
-        } else {
-          el.textContent = fmtInteiro.format(Math.round(atual)) + (el.getAttribute("data-sufixo") || "");
-        }
+        el.textContent = fmtInteiro.format(Math.round(alvo * e)) + (el.getAttribute("data-sufixo") || "");
       });
-      if (p < 1) {
-        window.requestAnimationFrame(desenhar);
-      } else {
-        folha.classList.remove("animando");
-        folha.classList.add("carimbado");
-      }
+      if (p < 1) window.requestAnimationFrame(desenhar);
     }
     window.requestAnimationFrame(desenhar);
   })();

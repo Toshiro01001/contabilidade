@@ -12,9 +12,9 @@ Frase de posicionamento: "Contabilidade que você lê sem dicionário." A promes
 
 ## Conceito visual: a folha de razão
 
-A imagem mental é o livro razão (ledger): colunas, linhas finas, números alinhados à direita, carimbos de conferência. O site inteiro é tratado como uma folha de contabilidade bem diagramada: muita linha horizontal fina, quase nenhum cartão flutuante, nenhuma sombra decorativa. Os números são os protagonistas; o texto serve a eles.
+A imagem mental é o livro razão (ledger): colunas, linhas finas, números alinhados à direita, carimbo de conferência. O site inteiro é tratado como uma folha de contabilidade bem diagramada: muita linha horizontal fina, quase nenhum cartão flutuante, nenhuma sombra decorativa. Os números são os protagonistas; o texto serve a eles.
 
-Uma coisa memorável por tela: no hero, um grande painel de apuração desenhado em HTML e CSS cujos números "fecham" ao abrir a página (o único movimento orquestrado do site). Nas demais telas, o destaque é sempre um número grande em petróleo.
+Uma coisa memorável por tela: no hero, uma foto de um livro-caixa aberto sobre a mesa, com carimbo e calculadora, ao lado dos três números da empresa que contam até o valor final ao abrir a página (o único movimento orquestrado do site). Nas demais telas, o destaque é sempre um número grande em petróleo.
 
 ## Paleta
 
@@ -67,13 +67,25 @@ Regra de peso: títulos sempre 700, nunca itálico. Números grandes sempre em P
 
 ## Imagem forte do hero
 
-Um painel de apuração desenhado em HTML e CSS (sem imagem): uma folha com cabeçalho "Apuração do mês", quatro linhas de conta com valores em Plex Mono, e uma linha final "Saldo a pagar" em petróleo. Ao carregar, os valores contam de zero até o número final em 1,2 segundo, e um carimbo "Conferido" aparece por último. Com `prefers-reduced-motion`, os valores já aparecem prontos e o carimbo fica fixo.
+O hero é uma **foto gerada por IA (Canva)**, ilustrativa: uma mesa de escritório vista de cima, em tom de papel, com um livro-caixa aberto (as colunas e os valores estão desfocados de propósito, para não haver número falso legível), uma xícara de café preto, uma calculadora, uma caneta esferográfica e um carimbo de madeira com a almofada de tinta em verde-escuro. O verde da almofada ecoa o Petróleo da paleta e o livro aberto é a folha de razão em versão real. Não há pessoas.
 
-Ícones: nenhum pacote de ícones. Os poucos sinais gráficos (marcador de prazo, seta de ordenação, carimbo) são SVG inline mínimos ou caracteres tipográficos.
+A moldura repete a da antiga folha de apuração: fio fino de 1 px na cor Fio, filete de 4 px em Tinta no topo e cantos de 3 px. O contêiner tem proporção fixa de 4:3 e mostra a cor média da foto enquanto ela carrega.
+
+O painel desenhado em HTML e CSS ("Apuração do mês", com o carimbo "Conferido") foi retirado do hero. Os três números da abertura (empresas atendidas, fechamento médio e multas) continuam abaixo do texto e continuam contando até o valor final.
+
+### Foto do hero
+
+- **Arquivo**: `img/hero.webp`, 1440 x 1080 px, proporção 4:3.
+- **Origem**: gerada por IA no Canva. O README e este estudo avisam que é ilustrativa.
+- **Prompt resumido**: "Mesa de escritório de contabilidade vista de cima, superfície em tom de papel marfim. Livro-caixa grande aberto, com colunas e linhas de valores desfocadas, uma xícara de café preto, uma calculadora preta, uma caneta esferográfica preta com detalhe dourado, um carimbo de madeira e uma almofada de tinta verde-escura. Luz suave de janela com sombras listradas, muito espaço livre. Estilo editorial de site premium, sem texto legível, sem pessoas, proporção 4:3."
+- **Texto alternativo**: descreve o livro-caixa, o café, a calculadora, a caneta, o carimbo e a almofada de tinta.
+- **Texto do hero**: fica ao lado da foto no computador e abaixo dela no celular, nunca por cima. O contraste do texto é o da página (Tinta sobre Papel) e não depende da foto.
+
+Ícones: nenhum pacote de ícones. Os poucos sinais gráficos (marcador de prazo, seta de ordenação) são SVG inline mínimos ou caracteres tipográficos.
 
 ## Movimento
 
-- Um momento orquestrado: a contagem dos números do hero.
+- Um momento orquestrado: a contagem dos números do hero (312 empresas, 4 dias). A foto só ganha um fade de 800 ms.
 - Respostas a ações: o resultado do simulador e da calculadora troca de valor com uma transição de opacidade de 180ms; as barras de comparação crescem em 400ms; os filtros do calendário escondem e mostram itens sem animação de altura.
 - Tudo desligado sob `prefers-reduced-motion: reduce`.
 

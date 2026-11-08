@@ -139,33 +139,24 @@ strong { font-weight: 700; }
 .hero-dados dd { margin: 4px 0 0; font-family: var(--fonte-num); font-size: 1.4rem; font-weight: 500; }
 @media (max-width: 420px) { .hero-dados { grid-template-columns: 1fr; gap: var(--e2); } .hero-dados div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; } .hero-dados dd { margin: 0; } }
 
-/* A folha de apuração (imagem forte) */
-.folha {
-  background: #fff;
+/* A foto do hero (imagem forte): moldura como a da folha de razão, fio fino e filete de tinta no topo */
+.hero-foto-caixa {
+  aspect-ratio: 4 / 3;
+  background: #B1ACA2; /* média da foto: aparece enquanto ela carrega */
   border: 1px solid var(--fio);
   border-top: 4px solid var(--tinta);
-  padding: var(--e3);
-  position: relative;
+  border-radius: var(--raio);
+  overflow: hidden;
 }
-.folha-cabecalho { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; padding-bottom: var(--e2); border-bottom: 1px solid var(--tinta); }
-.folha-cabecalho .mono { font-weight: 500; color: var(--grafite); font-size: 0.9rem; }
-.folha-tabela { width: 100%; border-collapse: collapse; margin-top: var(--e1); }
-.folha-tabela th, .folha-tabela td { padding: 7px 0; text-align: left; font-weight: 400; font-size: 0.95rem; line-height: 18px; }
-.folha-tabela td { text-align: right; white-space: nowrap; }
-.folha-tabela tbody tr { border-bottom: 1px dotted var(--fio); }
-.folha-tabela tfoot th, .folha-tabela tfoot td { font-weight: 700; padding-top: var(--e2); border-top: 2px solid var(--tinta); font-size: 1.05rem; }
-.folha-tabela .destaque { color: var(--petroleo); font-weight: 600; }
-.folha-rodape { display: flex; justify-content: space-between; align-items: center; margin-top: var(--e3); gap: var(--e2); flex-wrap: wrap; }
-.folha-nota { color: var(--grafite); font-size: 0.85rem; }
-.carimbo {
-  display: inline-block; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem;
-  color: var(--petroleo); border: 2px solid var(--petroleo); padding: 4px 10px; border-radius: 3px; transform: rotate(-4deg);
-  opacity: 1;
+.hero-foto { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 899px) {
+  .hero-foto-caixa { order: -1; } /* no celular a foto abre a página, o texto vem logo abaixo */
+  .hero { padding-top: var(--e3); }
 }
-.folha.animando .carimbo { opacity: 0; }
-.folha.carimbado .carimbo { animation: carimbar 320ms cubic-bezier(.2,.9,.3,1.2) forwards; }
-@keyframes carimbar { from { opacity: 0; transform: rotate(-4deg) scale(1.6); } to { opacity: 1; transform: rotate(-4deg) scale(1); } }
-@media (max-width: 380px) { .folha { padding: var(--e2); } .folha-tabela th, .folha-tabela td { font-size: 0.85rem; } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-foto { animation: foto-entra 800ms ease-out both; }
+  @keyframes foto-entra { from { opacity: 0; } to { opacity: 1; } }
+}
 
 /* Seções */
 .secao { padding: var(--e5) 0; border-bottom: 1px solid var(--fio); scroll-margin-top: 64px; }
