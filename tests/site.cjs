@@ -173,8 +173,10 @@ async function testarViewport(browser, vp) {
   await page.selectOption("#ct-assunto", { index: 1 });
   await page.fill("#ct-mensagem", "Quero abrir uma empresa de serviços.");
   await page.click("#contato-form button[type=submit]");
-  await page.waitForTimeout(200);
+  ok(await page.$eval("#contato-form .botao-conferir", (b) => b.classList.contains("is-conferindo")), "contato: botão entra no estado 'conferindo'");
+  await page.waitForTimeout(1700); /* a varredura dura 1,2 s; depois o botão vira 'Resumo pronto' */
   ok(await page.isVisible("#ct-resumo"), "contato: resumo aparece na tela");
+  ok(limpo(await page.textContent("#contato-form .botao-conferir-texto")) === "Resumo pronto", "contato: botão termina em 'Resumo pronto'");
   ok(requisicoes === 0, "contato: nenhuma requisição externa");
 
   /* Teclado: tab chega no botão do hero */

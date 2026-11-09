@@ -92,3 +92,42 @@ O painel desenhado em HTML e CSS ("Apuração do mês", com o carimbo "Conferido
 ## Clichês evitados de propósito
 
 Sem creme com serifa e terracota, sem preto com verde ácido, sem cartões idênticos com a mesma sombra, sem rótulos em caixa alta acima de cada título, sem numeração 01/02/03, sem setas em links, sem gradientes. O azul corporativo foi trocado por petróleo escuro sobre papel, e a "cara de banco" foi trocada por "cara de folha de razão bem feita".
+
+## Design systems aplicados (leva final)
+
+Dupla de referência do catálogo da Mil e Uma Linhas!: **moneyincheck-design-system** (claro) e **sora-design-system** (escuro). A paleta não mudou: o papel do moneyincheck virou Papel e Pauta, as linhas de 10% de preto viraram Fio, o verde #00846A virou Petróleo, o céu (sky) do sora virou Âmbar nos avisos e Petróleo nos dados, e as fontes continuam Archivo e IBM Plex Mono (a serifa gigante do moneyincheck, o WebGL, as notas de dinheiro e o vídeo ficaram de fora).
+
+**Como a mistura funciona**: toda a página clara segue os padrões do moneyincheck (pauta de fundo, tabela de preços, bússola, linha de meta, navegação, botões, formulário, retratos apagados e linhas de livro). O rodapé vira faixa Tinta com os padrões do sora (vidro branco a 4%, hairline, colunas). Nas seções claras, os padrões de dados do sora entram em versão clara: barras de despesa com valor em Plex Mono, donut de "% da receita", coluna de plano em destaque com checks e selo, callout de informação em Âmbar.
+
+| Padrão | Origem | Onde está |
+|---|---|---|
+| Paper grid (pauta de 1px Fio a cada 20rem, 25vw abaixo de 1080px, alinhada à margem da `.caixa` pelo script) | moneyincheck | `#decor` fixo atrás de tudo |
+| Pricing table (fundo Pauta ou Papel, raio 3px, separadores de 0,5px, valor em Plex Mono 500 à direita) | moneyincheck | `.tabela` do simulador, do custo e dos planos |
+| Scroll compass (trilho de 2px Fio, preenchimento Petróleo com `scaleY` do progresso) | moneyincheck | `.bussola`, só a partir de 1080px |
+| Magazine meta line (quatro colunas fixas, data e hora do visitante em Plex Mono Petróleo) | moneyincheck | `.meta-linha` abaixo do hero |
+| Nav link com sublinhado em 250ms e ativo seguindo a seção (IntersectionObserver) | moneyincheck | `.menu a` |
+| Buy button (Petróleo, 48px, hover #0A4842) e discos de seta (ativo Tinta, inativo anel de 1px) | moneyincheck | `.botao-primario` e `.alternador-botao` |
+| Newsletter form em estado "enviando" (varredura de 1,2s e spinner em 8 passos, depois "Resumo pronto") | moneyincheck | botão de `#contato-form` |
+| Polaroid ghosted (retrato 64px em cinza a 29% que ganha cor em 700ms) | moneyincheck | `.retrato` na `.tabela-equipe`; abaixo de 1080px a tabela vira faixa com scroll-snap |
+| Book row (dia em Plex Mono 500 20px, nome em 500, descrição em Grafite, chips à direita, 0,5px Fio) | moneyincheck | `ol#agenda` |
+| Glass card em Tinta (vidro a 4%, blur 24px, hairline a 10%) e rodapé em três colunas | sora | `.rodape` e `.rodape-vidro` |
+| Pricing card em destaque (fundo Pauta, checks SVG Petróleo de 14px, selo "mais escolhido" em Âmbar a 10%) | sora | coluna Rotina de `#planos-tabela` |
+| Expense bars + donut (trilho Pauta, Petróleo no mais barato, donut SVG de 96px com o número em Plex Mono 500) | sora | `#sim-barras` e `#sim-donut` |
+| Information callout (Âmbar a 10%, borda a 20%, raio 3px, título em 500 e link para `#contato`) | sora | `.aviso` do simulador e `.nota-destaque` |
+| Stat pair (Plex Mono 500 36px com legenda Grafite 14px abaixo) e revelação ao rolar (12px e fade em 500ms) | sora | `.hero-dados` e `.secao .caixa` |
+
+Todo movimento (revelação, bússola, varredura, spinner, transições) fica desligado com `prefers-reduced-motion: reduce`. Nada de biblioteca externa, fonte externa ou script de terceiros: a CSP continua `default-src 'self'`.
+
+### Fotos da leva final
+
+Todas as fotos são **geradas por IA no Canva e ilustrativas**; os arquivos em `img/` são as fotos finais, no tamanho e proporção certos.
+
+| Arquivo | Proporção | Onde |
+|---|---|---|
+| `img/equipe-escritorio-janela.webp` | 16:9 (1456x816) | `.equipe-foto`, acima da equipe em "Quem faz as contas" |
+| `img/mesa-fechamento-pastas.webp` | 4:3 (1456x1088) | `.servicos-foto`, ao lado do título de "O que fazemos" |
+| `img/carimbo-conferido.webp` | 1:1 (1024x1024) | `.resultado-foto`, 80px no topo do resultado do simulador |
+| `img/cracha-folha-pagamento.webp` | 1:1 (1024x1024) | `.custo-foto`, 80px no topo do resultado do custo de funcionário |
+| `img/calendario-mesa-clipes.webp` | 3:2 (1456x970) | `.prazos-foto`, ao lado dos filtros do calendário |
+| `img/recepcao-escritorio.webp` | 4:3 (1456x1088) | `.contato-foto`, acima do endereço em "Fale com a gente" |
+| `img/depoimento-loja-tecidos.webp` | 1:1 (1024x1024) | `.voz-foto`, miniatura redonda de 56px no primeiro depoimento |

@@ -4,6 +4,7 @@
   "use strict";
 
   var reduzMovimento = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.documentElement.classList.add("js");
 
   var fmtMoeda = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2 });
   var fmtInteiro = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 });
@@ -229,8 +230,15 @@
         var k = b.getAttribute("data-regime");
         var v = r[k].total === null ? 0 : r[k].total;
         $(".barra-valor", b).style.setProperty("--largura-barra", (maior > 0 ? (v / maior) * 100 : 0).toFixed(1) + "%");
+        $(".barra-numero", b).textContent = r[k].total === null ? "fora" : moeda(v);
         b.classList.toggle("melhor", k === melhor);
       });
+
+      /* Donut: % da receita do regime mais barato (circunferência de r=40: 251,33) */
+      var fracao = d.fat > 0 ? Math.min(1, r[melhor].total / d.fat) : 0;
+      var arco = $("#sim-donut .donut-valor");
+      if (arco) arco.style.setProperty("stroke-dasharray", (fracao * 251.33).toFixed(2) + " 251.33");
+      $("#sim-donut-numero").textContent = d.fat > 0 ? pct(fracao).replace(/\s/g, "") : "-";
 
       var m = "";
       m += "<h4>Simples Nacional</h4><table>";
@@ -384,9 +392,9 @@
       li.innerHTML =
         "<div class=\"dia\">" + o.dia + "<small>" + DIAS_SEMANA[data.getDay()] + "</small></div>" +
         "<div><p class=\"titulo\">" + o.titulo + "</p><p class=\"descricao\">" + o.descricao + "</p>" +
-        (estado ? "<p class=\"proximo-aviso\">" + estado.charAt(0).toUpperCase() + estado.slice(1) + "</p>" : "") +
+        (estado ? "<p class=\"proximo-aviso\">" + estado.charAt(0).toUpperCase() + estado.slice(1) + "</p>" : "") + "</div>" +
         "<div class=\"etiquetas\"><span class=\"etiqueta etiqueta-tipo-" + o.tipo + "\">" + NOMES_TIPO[o.tipo] + "</span>" +
-        o.regimes.map(function (r) { return "<span class=\"etiqueta\">" + NOMES_REGIME[r] + "</span>"; }).join("") + "</div></div>";
+        o.regimes.map(function (r) { return "<span class=\"etiqueta\">" + NOMES_REGIME[r] + "</span>"; }).join("") + "</div>";
       lista.appendChild(li);
     });
 
@@ -439,9 +447,25 @@
     var erro = $("#ct-erro");
     var resumo = $("#ct-resumo");
     var lista = $("#ct-resumo-lista");
+    var botao = $(".botao-conferir", form);
+    var textoBotao = $(".botao-conferir-texto", botao);
+    var TEXTO_PADRAO = textoBotao.textContent;
+    var temporizador = null;
+
+    function estadoBotao(estado) {
+      botao.classList.remove("is-conferindo", "is-pronto");
+      if (estado) botao.classList.add(estado);
+      textoBotao.textContent = estado === "is-conferindo" ? "Conferindo" : estado === "is-pronto" ? "Resumo pronto" : TEXTO_PADRAO;
+      botao.setAttribute("aria-busy", estado === "is-conferindo" ? "true" : "false");
+    }
+
+    form.addEventListener("input", function () {
+      if (botao.classList.contains("is-pronto")) estadoBotao(null);
+    });
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (botao.classList.contains("is-conferindo")) return;
       var problemas = [];
       var campos = [
         { el: form.nome, nome: "Nome", valido: function (v) { return v.trim().length >= 2; }, msg: "informe seu nome" },
@@ -472,8 +496,94 @@
         var dd = document.createElement("dd"); dd.textContent = v;
         lista.appendChild(dt); lista.appendChild(dd);
       });
-      resumo.hidden = false;
-      resumo.scrollIntoView({ behavior: reduzMovimento ? "auto" : "smooth", block: "nearest" });
+      /* Estado "conferindo": varredura de 1,2 s e spinner em passos; depois "Resumo pronto". Nada é enviado. */
+      estadoBotao("is-conferindo");
+      window.clearTimeout(temporizador);
+      temporizador = window.setTimeout(function () {
+        estadoBotao("is-pronto");
+        resumo.hidden = false;
+        resumo.scrollIntoView({ behavior: reduzMovimento ? "auto" : "smooth", block: "nearest" });
+      }, reduzMovimento ? 0 : 1200);
+    });
+  })();
+
+  /* ---------- Pauta de fundo: alinha a grade com a margem da .caixa ---------- */
+  (function pauta() {
+    var caixa = $(".topo .caixa");
+    if (!caixa) return;
+    function alinhar() {
+      var r = caixa.getBoundingClientRect();
+      var margem = parseFloat(getComputedStyle(caixa).paddingLeft) || 0;
+      var passo = window.innerWidth < 1080 ? window.innerWidth * 0.25 : 20 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+      var borda = r.left + margem;
+      var ox = passo > 0 ? ((borda % passo) + passo) % passo : 0;
+      document.documentElement.style.setProperty("--g-ox", ox.toFixed(2) + "px");
+    }
+    alinhar();
+    window.addEventListener("resize", alinhar);
+  })();
+
+  /* ---------- Bússola de rolagem: preenchimento acompanha o progresso da página ---------- */
+  (function bussola() {
+    var fill = $(".bussola-preenchimento");
+    if (!fill) return;
+    var agendado = false;
+    function desenhar() {
+      agendado = false;
+      var doc = document.documentElement;
+      var total = doc.scrollHeight - doc.clientHeight;
+      var p = total > 0 ? Math.min(1, Math.max(0, (window.scrollY || doc.scrollTop) / total)) : 0;
+      fill.style.setProperty("transform", "scaleY(" + p.toFixed(4) + ")");
+    }
+    function pedir() { if (!agendado) { agendado = true; window.requestAnimationFrame(desenhar); } }
+    window.addEventListener("scroll", pedir, { passive: true });
+    window.addEventListener("resize", pedir);
+    desenhar();
+  })();
+
+  /* ---------- Linha de meta: data e hora do visitante, ao vivo ---------- */
+  (function metaLinha() {
+    var el = $("#meta-agora");
+    if (!el) return;
+    var fmt = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    function atualizar() { el.textContent = fmt.format(new Date()); }
+    atualizar();
+    window.setInterval(atualizar, 30000);
+  })();
+
+  /* ---------- Menu: o link da seção visível fica ativo ---------- */
+  (function menuAtivo() {
+    var links = $$(".menu a[href^='#']");
+    if (!links.length || !("IntersectionObserver" in window)) return;
+    var porId = {};
+    links.forEach(function (a) { porId[a.getAttribute("href").slice(1)] = a; });
+    var visiveis = {};
+    function marcar() {
+      var ativo = null;
+      ["servicos", "simulador", "custo", "prazos", "planos", "sobre", "contato"].forEach(function (id) { if (visiveis[id] && !ativo) ativo = id; });
+      links.forEach(function (a) { a.classList.toggle("ativo", porId[ativo] === a); });
+    }
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) { visiveis[e.target.id] = e.isIntersecting; });
+      marcar();
+    }, { rootMargin: "-35% 0px -55% 0px", threshold: 0 });
+    Object.keys(porId).forEach(function (id) { var sec = document.getElementById(id); if (sec) obs.observe(sec); });
+  })();
+
+  /* ---------- Revelação ao rolar: cada .caixa de seção sobe 12px com fade ao cruzar 12% da tela ---------- */
+  (function revelar() {
+    if (reduzMovimento || !("IntersectionObserver" in window)) return;
+    var caixas = $$(".secao .caixa");
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("revelado"); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0, rootMargin: "0px 0px -12% 0px" });
+    caixas.forEach(function (c) {
+      var r = c.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) return; /* já está na tela: não esconde */
+      c.classList.add("revela");
+      obs.observe(c);
     });
   })();
 })();

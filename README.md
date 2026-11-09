@@ -28,7 +28,7 @@ Empresa, pessoas, CRC, endereço, telefone, depoimentos, preços e datas do cale
 3. Em "Quanto custa contratar um funcionário", digite o salário e os benefícios e troque o regime da empresa para ver a diferença dos encargos.
 4. Em "O que vence em novembro de 2026", toque nos filtros para ver só as obrigações do seu regime ou tipo.
 5. Em "Planos e mensalidades", alterne entre Mensal e Anual.
-6. Em "Fale com a gente", preencha o formulário e clique em "Conferir e ver o resumo".
+6. Em "Fale com a gente", preencha o formulário e clique em "Conferir e ver o resumo". O botão faz uma varredura de pouco mais de um segundo, muda para "Resumo pronto" e o resumo aparece ao lado. Nada é enviado.
 
 ![Página inicial no celular](docs/capa-celular.webp)
 
@@ -38,9 +38,11 @@ A ideia é a **folha de razão**: linhas finas, números alinhados à direita, a
 
 - **Paleta**: Papel `#F5F4EF` (fundo), Pauta `#E9E7DF` (faixas e campos), Fio `#CFCBBF` (linhas), Tinta `#1B2420` (texto), Grafite `#5B655F` (legendas), Petróleo `#0E5B55` (o único destaque de cada tela), Âmbar `#B9770E` (avisos e prazos próximos) e Ferrugem `#A63B2A` (só para valores negativos).
 - **Imagem forte**: uma foto de uma mesa de escritório com livro-caixa aberto, calculadora, café e carimbo (`img/hero.webp`). **A foto foi gerada por IA no Canva e é só ilustrativa**: a mesa e os valores do livro não existem. Os números do livro estão desfocados de propósito.
+- **Outras fotos** (todas geradas por IA no Canva, ilustrativas; equipe, loja e escritório não existem): `img/equipe-escritorio-janela.webp` (16:9, acima da equipe), `img/mesa-fechamento-pastas.webp` (4:3, ao lado do título dos serviços), `img/carimbo-conferido.webp` e `img/cracha-folha-pagamento.webp` (1:1, 80px no topo dos resultados do simulador e do custo de funcionário), `img/calendario-mesa-clipes.webp` (3:2, ao lado dos filtros do calendário), `img/recepcao-escritorio.webp` (4:3, acima do endereço) e `img/depoimento-loja-tecidos.webp` (1:1, miniatura redonda do primeiro depoimento). Os arquivos são as fotos finais, convertidas para webp no tamanho certo.
+- **Superfícies e detalhes**: pauta de linhas finas fixa atrás da página (como a grade de um livro razão), bússola de rolagem à direita no computador, linha de meta com a data e a hora do visitante, tabelas com fundo Pauta e separadores de 0,5px, agenda em linhas de livro, retratos da equipe em cinza que ganham cor ao passar o mouse, rodapé escuro com um cartão de vidro em três colunas. O estudo em `docs/identidade.md` lista a origem de cada padrão.
 - **Fontes**: Archivo (variável) para títulos e texto, IBM Plex Mono para todo número, valor e data. As duas são de licença aberta (SIL OFL) e ficam na pasta `fonts/`, sem Google Fonts nem CDN.
 - **Por quê**: em contabilidade o número é o produto. A fonte mono faz o visitante enxergar na hora que aquilo foi apurado, e o petróleo escuro sobre papel passa seriedade sem a cara genérica de banco.
-- **Movimento**: um único momento na abertura, quando os números do início (empresas atendidas, dias de fechamento) contam até o valor final. Quem pede menos movimento no sistema (`prefers-reduced-motion`) vê tudo pronto.
+- **Movimento**: a contagem dos números do início (empresas atendidas, dias de fechamento), cada seção que sobe 12px com um fade ao entrar na tela, a bússola que acompanha a rolagem e o botão do contato que faz uma varredura de 1,2 s antes de mostrar o resumo. Quem pede menos movimento no sistema (`prefers-reduced-motion`) vê tudo pronto, sem animação.
 
 O estudo completo está em [`docs/identidade.md`](docs/identidade.md).
 
@@ -60,7 +62,7 @@ Tudo acontece no seu navegador. Quando você muda um número, um programa em Jav
 
 ## Detalhes técnicos
 
-- HTML, CSS e JavaScript puros. Um `index.html`, um `assets/estilo.css`, um `assets/app.js` e a foto `img/hero.webp`. Sem framework, sem biblioteca, sem CDN, sem analytics.
+- HTML, CSS e JavaScript puros. Um `index.html`, um `assets/estilo.css`, um `assets/app.js` e as fotos em `img/`. Sem framework, sem biblioteca, sem CDN, sem analytics. A bússola, a pauta de fundo, o donut e a revelação ao rolar são CSS e JavaScript próprios.
 - Content-Security-Policy por meta: `default-src 'self'`, sem script inline, sem estilo inline, `connect-src 'none'`, `form-action 'none'`. Larguras de barra são aplicadas por `element.style.setProperty`, que a CSP permite.
 - Simulador: Simples Nacional com as seis faixas dos anexos I, II, III e V, Fator R para serviços (folha dividida pela receita, 28%) e alíquota efetiva `(RBT12 × nominal − dedução) ÷ RBT12`. Presumido com presunção de 8% ou 32% para IRPJ e 12% ou 32% para CSLL, adicional de IRPJ sobre o que passa de R$ 20 mil por mês, PIS 0,65%, COFINS 3%, encargos patronais de 27,8% da folha e ICMS ou ISS informado. Real com IRPJ e CSLL sobre o lucro informado, PIS 1,65% e COFINS 7,6% sem créditos. Acima de R$ 4,8 milhões por ano o Simples sai da comparação.
 - Calculadora: 13º (1/12), férias com um terço (1/9), FGTS 8% sobre salário e provisões, encargos patronais de 27,8% fora do Simples, vale-transporte descontando 6% do salário.
@@ -83,7 +85,7 @@ Com o site servido na porta 8303 e o Playwright instalado (`npm i playwright`):
 node tests/site.cjs
 ```
 
-O script abre o site em três tamanhos (1280×900, iPhone 13 e 320px) e confere: nenhum erro de console, nenhuma rolagem horizontal, nenhum texto cortado, fontes locais carregadas, a contagem da abertura, o menu do celular, as quatro funções com valores esperados (por exemplo, Simples comércio com R$ 40 mil de faturamento dá R$ 2.645,00) e que o formulário de contato não faz nenhuma requisição externa. Com `CAPTURAS=1` ele também salva as imagens em `docs/`.
+O script abre o site em três tamanhos (1280×900, iPhone 13 e 320px) e confere: nenhum erro de console, nenhuma rolagem horizontal, nenhum texto cortado, fontes locais carregadas, a contagem da abertura, o menu do celular, as quatro funções com valores esperados (por exemplo, Simples comércio com R$ 40 mil de faturamento dá R$ 2.645,00), o estado "conferindo" e o "Resumo pronto" do botão de contato e que o formulário não faz nenhuma requisição externa. Com `CAPTURAS=1` ele também salva as imagens em `docs/`.
 
 ## Segurança
 

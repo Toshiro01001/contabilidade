@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="assets/estilo.css">
 </head>
 <body>
+  <div id="decor" class="decor" aria-hidden="true"></div>
+  <div class="bussola" aria-hidden="true"><span class="bussola-preenchimento"></span></div>
   <a class="pular" href="#conteudo">Ir para o conteúdo</a>
 
   <p class="faixa-demo">Demonstração da <a href="https://mileumalinhas.com.br" rel="noopener">Mil e Uma Linhas!</a>. Empresa, pessoas, valores e prazos são fictícios. Nada é enviado nem cobrado.</p>
@@ -60,15 +62,28 @@
           <img class="hero-foto" src="img/hero.webp" width="1440" height="1080" alt="Mesa de escritório vista de cima: um livro-caixa aberto, com colunas e valores desfocados, uma xícara de café preto, uma calculadora preta, uma caneta esferográfica, um carimbo de madeira e uma almofada de tinta verde-escura." fetchpriority="high">
         </div>
       </div>
+      <div class="caixa">
+        <p class="meta-linha">
+          <span class="meta-marca">Lastro Contabilidade</span>
+          <span class="meta-lugar">Cuiabá, MT</span>
+          <span class="meta-agora mono" id="meta-agora">novembro de 2026</span>
+          <span class="meta-prazo">fechamento até o dia 10</span>
+        </p>
+      </div>
     </section>
 
     <!-- SERVIÇOS -->
     <section id="servicos" class="secao" aria-labelledby="servicos-titulo">
       <div class="caixa">
-        <header class="secao-cabecalho">
-          <h2 id="servicos-titulo">O que fazemos pela sua empresa</h2>
-          <p>Seis serviços, cada um com um entregável claro. Clique em qualquer linha para ver o que está incluído.</p>
-        </header>
+        <div class="servicos-topo">
+          <header class="secao-cabecalho">
+            <h2 id="servicos-titulo">O que fazemos pela sua empresa</h2>
+            <p>Seis serviços, cada um com um entregável claro. Clique em qualquer linha para ver o que está incluído.</p>
+          </header>
+          <figure class="foto servicos-foto">
+            <img src="img/mesa-fechamento-pastas.webp" width="1456" height="1088" alt="Mesa de escritório com pastas de papel organizadas, calculadora, carimbo de madeira com almofada verde-escura e uma xícara de café, vistos em ângulo." loading="lazy" decoding="async">
+          </figure>
+        </div>
         <ul class="servicos">
           <li>
             <details>
@@ -118,7 +133,10 @@
           <p>Preencha quatro números e veja, lado a lado, quanto a sua empresa pagaria por mês no Simples Nacional, no Lucro Presumido e no Lucro Real.</p>
         </header>
 
-        <p class="aviso" role="note"><strong>Simulação ilustrativa.</strong> As contas usam tabelas e alíquotas simplificadas e não consideram créditos, benefícios fiscais, substituição tributária nem a situação específica do seu negócio. Serve para entender a lógica, não para decidir. A conta de verdade é feita por nós, com seus documentos.</p>
+        <div class="aviso" role="note">
+          <p class="aviso-titulo">Simulação ilustrativa</p>
+          <p>As contas usam tabelas e alíquotas simplificadas e não consideram créditos, benefícios fiscais, substituição tributária nem a situação específica do seu negócio. Serve para entender a lógica, não para decidir. <a class="aviso-acao" href="#contato">Como fazemos a conta de verdade</a></p>
+        </div>
 
         <div class="duas-colunas">
           <form class="formulario" id="sim-form" novalidate>
@@ -170,8 +188,15 @@
           </form>
 
           <div class="resultado" aria-live="polite" id="sim-resultado">
-            <p class="resultado-rotulo">Regime mais barato nesta simulação</p>
-            <p class="resultado-nome" id="sim-melhor-nome">Simples Nacional</p>
+            <div class="resultado-topo">
+              <div>
+                <p class="resultado-rotulo">Regime mais barato nesta simulação</p>
+                <p class="resultado-nome" id="sim-melhor-nome">Simples Nacional</p>
+              </div>
+              <figure class="foto foto-quadrada resultado-foto">
+                <img src="img/carimbo-conferido.webp" width="1024" height="1024" alt="Carimbo de madeira apoiado sobre uma folha de apuração com colunas desfocadas e uma marca verde-escura recém-carimbada." loading="lazy" decoding="async">
+              </figure>
+            </div>
             <p class="resultado-numero mono" id="sim-melhor-valor">R$ 0,00<span class="resultado-unidade">/mês</span></p>
             <p class="resultado-nota" id="sim-melhor-nota"></p>
 
@@ -187,10 +212,20 @@
               </tbody>
             </table>
 
-            <div class="barras" id="sim-barras" aria-hidden="true">
-              <div class="barra" data-regime="simples"><span class="barra-rotulo">Simples</span><span class="barra-trilho"><span class="barra-valor"></span></span></div>
-              <div class="barra" data-regime="presumido"><span class="barra-rotulo">Presumido</span><span class="barra-trilho"><span class="barra-valor"></span></span></div>
-              <div class="barra" data-regime="real"><span class="barra-rotulo">Real</span><span class="barra-trilho"><span class="barra-valor"></span></span></div>
+            <div class="dados-regimes" aria-hidden="true">
+              <div class="barras" id="sim-barras">
+                <div class="barra" data-regime="simples"><span class="barra-rotulo">Simples</span><span class="barra-trilho"><span class="barra-valor"></span></span><span class="barra-numero mono"></span></div>
+                <div class="barra" data-regime="presumido"><span class="barra-rotulo">Presumido</span><span class="barra-trilho"><span class="barra-valor"></span></span><span class="barra-numero mono"></span></div>
+                <div class="barra" data-regime="real"><span class="barra-rotulo">Real</span><span class="barra-trilho"><span class="barra-valor"></span></span><span class="barra-numero mono"></span></div>
+              </div>
+              <div class="donut-caixa">
+                <svg class="donut" id="sim-donut" viewBox="0 0 96 96" width="96" height="96" focusable="false">
+                  <circle class="donut-trilho" cx="48" cy="48" r="40" />
+                  <circle class="donut-valor" cx="48" cy="48" r="40" />
+                  <text class="donut-numero" x="48" y="48" text-anchor="middle" dominant-baseline="central" id="sim-donut-numero">0%</text>
+                </svg>
+                <p class="donut-legenda">da receita no regime mais barato</p>
+              </div>
             </div>
 
             <details class="memoria">
@@ -258,7 +293,12 @@
           </form>
 
           <div class="resultado" aria-live="polite">
-            <p class="resultado-rotulo">Custo mensal total para a empresa</p>
+            <div class="resultado-topo">
+              <p class="resultado-rotulo">Custo mensal total para a empresa</p>
+              <figure class="foto foto-quadrada custo-foto">
+                <img src="img/cracha-folha-pagamento.webp" width="1024" height="1024" alt="Crachá em branco com cordão verde-escuro, um envelope kraft fechado e uma caneta sobre mesa em tom de papel." loading="lazy" decoding="async">
+              </figure>
+            </div>
             <p class="resultado-numero mono" id="custo-total">R$ 0,00<span class="resultado-unidade">/mês</span></p>
             <p class="resultado-nota" id="custo-multiplicador"></p>
 
@@ -283,21 +323,26 @@
           <p>Calendário fictício de obrigações do mês. Filtre pelo regime da sua empresa e pelo tipo de obrigação para ver só o que interessa.</p>
         </header>
 
-        <div class="filtros" role="group" aria-label="Filtros do calendário">
-          <fieldset class="filtro-grupo">
-            <legend>Regime</legend>
-            <label class="chip"><input type="radio" name="f-regime" value="todos" checked><span>Todos</span></label>
-            <label class="chip"><input type="radio" name="f-regime" value="mei"><span>MEI</span></label>
-            <label class="chip"><input type="radio" name="f-regime" value="simples"><span>Simples</span></label>
-            <label class="chip"><input type="radio" name="f-regime" value="presumido"><span>Presumido e Real</span></label>
-          </fieldset>
-          <fieldset class="filtro-grupo">
-            <legend>Tipo</legend>
-            <label class="chip"><input type="checkbox" name="f-tipo" value="imposto" checked><span>Impostos</span></label>
-            <label class="chip"><input type="checkbox" name="f-tipo" value="folha" checked><span>Folha</span></label>
-            <label class="chip"><input type="checkbox" name="f-tipo" value="declaracao" checked><span>Declarações</span></label>
-          </fieldset>
-          <p class="filtros-contagem" id="prazos-contagem" aria-live="polite"></p>
+        <div class="prazos-topo">
+          <div class="filtros" role="group" aria-label="Filtros do calendário">
+            <fieldset class="filtro-grupo">
+              <legend>Regime</legend>
+              <label class="chip"><input type="radio" name="f-regime" value="todos" checked><span>Todos</span></label>
+              <label class="chip"><input type="radio" name="f-regime" value="mei"><span>MEI</span></label>
+              <label class="chip"><input type="radio" name="f-regime" value="simples"><span>Simples</span></label>
+              <label class="chip"><input type="radio" name="f-regime" value="presumido"><span>Presumido e Real</span></label>
+            </fieldset>
+            <fieldset class="filtro-grupo">
+              <legend>Tipo</legend>
+              <label class="chip"><input type="checkbox" name="f-tipo" value="imposto" checked><span>Impostos</span></label>
+              <label class="chip"><input type="checkbox" name="f-tipo" value="folha" checked><span>Folha</span></label>
+              <label class="chip"><input type="checkbox" name="f-tipo" value="declaracao" checked><span>Declarações</span></label>
+            </fieldset>
+            <p class="filtros-contagem" id="prazos-contagem" aria-live="polite"></p>
+          </div>
+          <figure class="foto prazos-foto">
+            <img src="img/calendario-mesa-clipes.webp" width="1456" height="970" alt="Calendário de mesa de papel com alguns dias marcados por clipes âmbar e um lápis apoiado, sobre mesa em tom de papel." loading="lazy" decoding="async">
+          </figure>
         </div>
 
         <ol class="agenda" id="agenda"></ol>
@@ -326,7 +371,7 @@
               <tr>
                 <th scope="col"><span class="visualmente-oculto">Item</span></th>
                 <th scope="col">Começo<span class="plano-para">MEI e empresas sem funcionários</span></th>
-                <th scope="col" class="plano-destaque">Rotina<span class="plano-para">Simples com até 5 funcionários</span></th>
+                <th scope="col" class="plano-destaque"><span class="selo">mais escolhido</span>Rotina<span class="plano-para">Simples com até 5 funcionários</span></th>
                 <th scope="col">Decisão<span class="plano-para">Presumido, Real ou com consultoria</span></th>
               </tr>
             </thead>
@@ -337,13 +382,13 @@
                 <td data-plano="Rotina" class="plano-destaque"><span class="preco mono" data-mensal="449" data-anual="374">R$ 449</span><span class="preco-unidade">/mês</span></td>
                 <td data-plano="Decisão"><span class="preco mono" data-mensal="890" data-anual="742">R$ 890</span><span class="preco-unidade">/mês</span></td>
               </tr>
-              <tr><th scope="row">Contabilidade mensal e guias</th><td data-plano="Começo" data-sim>Sim</td><td data-plano="Rotina" class="plano-destaque" data-sim>Sim</td><td data-plano="Decisão" data-sim>Sim</td></tr>
-              <tr><th scope="row">Folha de pagamento</th><td data-plano="Começo" data-nao>Não</td><td data-plano="Rotina" class="plano-destaque" data-sim>Até 5 pessoas</td><td data-plano="Decisão" data-sim>Até 20 pessoas</td></tr>
-              <tr><th scope="row">Pró-labore dos sócios</th><td data-plano="Começo" data-sim>1 sócio</td><td data-plano="Rotina" class="plano-destaque" data-sim>Até 3 sócios</td><td data-plano="Decisão" data-sim>Sem limite</td></tr>
-              <tr><th scope="row">Planejamento tributário anual</th><td data-plano="Começo" data-nao>Não</td><td data-plano="Rotina" class="plano-destaque" data-sim>Sim</td><td data-plano="Decisão" data-sim>Sim, trimestral</td></tr>
+              <tr><th scope="row">Contabilidade mensal e guias</th><td data-plano="Começo" data-sim>Sim</td><td data-plano="Rotina" class="plano-destaque" data-sim><svg class="check" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2.5 7.5 5.6 10.5 11.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Sim</td><td data-plano="Decisão" data-sim>Sim</td></tr>
+              <tr><th scope="row">Folha de pagamento</th><td data-plano="Começo" data-nao>Não</td><td data-plano="Rotina" class="plano-destaque" data-sim><svg class="check" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2.5 7.5 5.6 10.5 11.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Até 5 pessoas</td><td data-plano="Decisão" data-sim>Até 20 pessoas</td></tr>
+              <tr><th scope="row">Pró-labore dos sócios</th><td data-plano="Começo" data-sim>1 sócio</td><td data-plano="Rotina" class="plano-destaque" data-sim><svg class="check" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2.5 7.5 5.6 10.5 11.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Até 3 sócios</td><td data-plano="Decisão" data-sim>Sem limite</td></tr>
+              <tr><th scope="row">Planejamento tributário anual</th><td data-plano="Começo" data-nao>Não</td><td data-plano="Rotina" class="plano-destaque" data-sim><svg class="check" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2.5 7.5 5.6 10.5 11.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Sim</td><td data-plano="Decisão" data-sim>Sim, trimestral</td></tr>
               <tr><th scope="row">Reunião de consultoria financeira</th><td data-plano="Começo" data-nao>Não</td><td data-plano="Rotina" class="plano-destaque" data-nao>Não</td><td data-plano="Decisão" data-sim>Mensal, 50 min</td></tr>
               <tr><th scope="row">Atendimento</th><td data-plano="Começo">Mensagem, resposta em 1 dia útil</td><td data-plano="Rotina" class="plano-destaque">Mensagem e telefone, resposta em 4 h</td><td data-plano="Decisão">Contador dedicado</td></tr>
-              <tr><th scope="row">Certidões negativas</th><td data-plano="Começo" data-sim>Sob pedido</td><td data-plano="Rotina" class="plano-destaque" data-sim>Mensal, automática</td><td data-plano="Decisão" data-sim>Mensal, automática</td></tr>
+              <tr><th scope="row">Certidões negativas</th><td data-plano="Começo" data-sim>Sob pedido</td><td data-plano="Rotina" class="plano-destaque" data-sim><svg class="check" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2.5 7.5 5.6 10.5 11.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Mensal, automática</td><td data-plano="Decisão" data-sim>Mensal, automática</td></tr>
               <tr class="linha-acao">
                 <th scope="row"><span class="visualmente-oculto">Contratar</span></th>
                 <td data-plano="Começo"><a class="botao botao-secundario" href="#contato">Falar sobre o Começo</a></td>
@@ -364,20 +409,23 @@
           <h2 id="sobre-titulo">Quem faz as contas</h2>
           <p>Uma equipe de quatro pessoas, todas com nome e telefone no seu contrato. Você fala com quem faz, não com um protocolo.</p>
         </header>
+        <figure class="foto equipe-foto">
+          <img src="img/equipe-escritorio-janela.webp" width="1456" height="816" alt="Quatro pessoas adultas vistas de costas em um escritório claro, em pé diante de uma janela, com pastas e um livro-caixa sobre a mesa comprida." loading="lazy" decoding="async">
+        </figure>
         <div class="equipe-e-vozes">
           <table class="tabela tabela-equipe">
             <caption class="visualmente-oculto">Equipe do escritório</caption>
             <tbody>
-              <tr><th scope="row">Helena Vasconcelos Prado</th><td>Contadora responsável, CRC fictício MT-0000/O</td><td class="mono">14 anos de profissão</td></tr>
-              <tr><th scope="row">Tadeu Oliveira Ramos</th><td>Folha de pagamento e eSocial</td><td class="mono">9 anos</td></tr>
-              <tr><th scope="row">Marina Costa Lins</th><td>Planejamento tributário e consultoria financeira</td><td class="mono">11 anos</td></tr>
-              <tr><th scope="row">Caio Ribeiro Fontes</th><td>Abertura, regularização e certidões</td><td class="mono">6 anos</td></tr>
+              <tr tabindex="0"><td class="retrato-celula"><span class="retrato" aria-hidden="true"><svg viewBox="0 0 64 64" width="64" height="64" focusable="false"><rect width="64" height="64" fill="#0E5B55"/><circle cx="32" cy="24" r="11" fill="#E9E7DF"/><path d="M12 58c2-12 10-18 20-18s18 6 20 18Z" fill="#E9E7DF"/><text x="32" y="60" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-size="9" font-weight="700" fill="#0E5B55">HVP</text></svg></span></td><th scope="row">Helena Vasconcelos Prado</th><td>Contadora responsável, CRC fictício MT-0000/O</td><td class="mono">14 anos de profissão</td></tr>
+              <tr tabindex="0"><td class="retrato-celula"><span class="retrato" aria-hidden="true"><svg viewBox="0 0 64 64" width="64" height="64" focusable="false"><rect width="64" height="64" fill="#0E5B55"/><circle cx="32" cy="24" r="11" fill="#E9E7DF"/><path d="M12 58c2-12 10-18 20-18s18 6 20 18Z" fill="#E9E7DF"/><text x="32" y="60" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-size="9" font-weight="700" fill="#0E5B55">TOR</text></svg></span></td><th scope="row">Tadeu Oliveira Ramos</th><td>Folha de pagamento e eSocial</td><td class="mono">9 anos</td></tr>
+              <tr tabindex="0"><td class="retrato-celula"><span class="retrato" aria-hidden="true"><svg viewBox="0 0 64 64" width="64" height="64" focusable="false"><rect width="64" height="64" fill="#0E5B55"/><circle cx="32" cy="24" r="11" fill="#E9E7DF"/><path d="M12 58c2-12 10-18 20-18s18 6 20 18Z" fill="#E9E7DF"/><text x="32" y="60" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-size="9" font-weight="700" fill="#0E5B55">MCL</text></svg></span></td><th scope="row">Marina Costa Lins</th><td>Planejamento tributário e consultoria financeira</td><td class="mono">11 anos</td></tr>
+              <tr tabindex="0"><td class="retrato-celula"><span class="retrato" aria-hidden="true"><svg viewBox="0 0 64 64" width="64" height="64" focusable="false"><rect width="64" height="64" fill="#0E5B55"/><circle cx="32" cy="24" r="11" fill="#E9E7DF"/><path d="M12 58c2-12 10-18 20-18s18 6 20 18Z" fill="#E9E7DF"/><text x="32" y="60" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-size="9" font-weight="700" fill="#0E5B55">CRF</text></svg></span></td><th scope="row">Caio Ribeiro Fontes</th><td>Abertura, regularização e certidões</td><td class="mono">6 anos</td></tr>
             </tbody>
           </table>
           <div class="vozes">
             <blockquote>
               <p>"Pela primeira vez abri a planilha do contador e entendi tudo sem ligar para perguntar."</p>
-              <footer>Renata Albuquerque, dona de uma loja de tecidos fictícia</footer>
+              <footer class="voz-com-foto"><img class="voz-foto" src="img/depoimento-loja-tecidos.webp" width="1024" height="1024" alt="Rolos de tecido em tons de creme, verde-escuro e terracota empilhados em uma prateleira de madeira de loja pequena." loading="lazy" decoding="async"><span>Renata Albuquerque, dona de uma loja de tecidos fictícia</span></footer>
             </blockquote>
             <blockquote>
               <p>"Mudamos de regime em janeiro com a conta na mão. Economizamos o equivalente a dois meses de aluguel no ano."</p>
@@ -425,7 +473,7 @@
               <textarea id="ct-mensagem" name="mensagem" rows="4" required minlength="10"></textarea>
             </div>
             <p class="erro" id="ct-erro" role="alert" hidden></p>
-            <button class="botao botao-primario" type="submit">Conferir e ver o resumo</button>
+            <button class="botao botao-primario botao-conferir" type="submit"><span class="botao-conferir-texto">Conferir e ver o resumo</span><span class="botao-spinner" aria-hidden="true"></span></button>
           </form>
           <div>
             <div class="resultado resultado-contato" id="ct-resumo" aria-live="polite" hidden>
@@ -433,6 +481,9 @@
               <dl class="resumo-lista" id="ct-resumo-lista"></dl>
               <p class="nota-pequena">Em um site de verdade, este resumo iria para o e-mail do escritório. Aqui ele fica só na sua tela.</p>
             </div>
+            <figure class="foto contato-foto">
+              <img src="img/recepcao-escritorio.webp" width="1456" height="1088" alt="Recepção pequena de escritório com balcão de madeira clara, placa em branco na parede, uma planta e luz de manhã pela janela." loading="lazy" decoding="async">
+            </figure>
             <address class="endereco">
               <p><strong>Lastro Contabilidade</strong> (fictícia)</p>
               <p>Rua das Palmeiras, 1000, sala 42, Cuiabá, MT</p>
@@ -472,10 +523,27 @@
   </main>
 
   <footer class="rodape">
-    <div class="caixa rodape-grade">
-      <p class="rodape-marca">Lastro Contabilidade e Consultoria Financeira</p>
-      <p>Escritório fictício criado como demonstração. Nenhum serviço é prestado, nenhum valor é cobrado.</p>
-      <p>Site de demonstração da <a href="https://mileumalinhas.com.br" rel="noopener">Mil e Uma Linhas!</a>, Cuiabá. Sites e sistemas para quem quer ser entendido.</p>
+    <div class="caixa">
+      <div class="rodape-vidro rodape-grade">
+        <div class="rodape-coluna">
+          <p class="rodape-marca">Lastro Contabilidade e Consultoria Financeira</p>
+          <p>Escritório fictício criado como demonstração. Nenhum serviço é prestado, nenhum valor é cobrado.</p>
+        </div>
+        <nav class="rodape-coluna rodape-atalhos" aria-label="Atalhos das seções">
+          <p class="rodape-titulo">Seções</p>
+          <a href="#servicos">Serviços</a>
+          <a href="#simulador">Simulador</a>
+          <a href="#custo">Custo de contratar</a>
+          <a href="#prazos">Prazos</a>
+          <a href="#planos">Planos</a>
+          <a href="#contato">Contato</a>
+        </nav>
+        <div class="rodape-coluna">
+          <p class="rodape-titulo">Quem fez</p>
+          <p>Site de demonstração da <a href="https://mileumalinhas.com.br" rel="noopener">Mil e Uma Linhas!</a>, Cuiabá. Sites e sistemas para quem quer ser entendido.</p>
+          <p class="rodape-ia">As fotos foram geradas por IA no Canva e são ilustrativas.</p>
+        </div>
+      </div>
     </div>
   </footer>
 
