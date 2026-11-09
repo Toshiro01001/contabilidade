@@ -35,3 +35,18 @@ Nenhum dado real. Nomes, CRC, endereço, telefone, depoimentos e preços são fi
 - A CSP por meta protege menos que por cabeçalho HTTP (por exemplo, não cobre `frame-ancestors`). Risco baixo: o site não tem sessão nem dados para serem roubados por clickjacking.
 - O simulador e a calculadora são ilustrativos. O risco não é técnico, mas de interpretação: alguém decidir regime tributário com base neles. O aviso em âmbar, a memória de cálculo e a nota de rodapé reduzem esse risco; o texto deixa claro que a conta de verdade é feita com documentos.
 - `innerHTML` é usado em `app.js` apenas com texto gerado pelo próprio script a partir de números e tabelas fixas, nunca com texto digitado pelo visitante. O resumo do formulário de contato usa `textContent`.
+
+## Revisão de 08/11/2026 (leva final de design)
+
+Revisão feita depois de aplicar os design systems da leva final e encaixar as fotos geradas por IA no Canva.
+
+- **CSP:** a política do `index.html` é a mesma de antes da leva (conferida linha a linha). Continua sem `unsafe-inline`, sem `unsafe-eval` e sem origem externa.
+- **Script e estilo inline:** nenhum `<script>` inline, nenhum `<style>` e nenhum atributo `style` nas páginas. Os efeitos novos mudam só classes, `textContent` e propriedades CSS pelo CSSOM, que a CSP permite.
+- **Recursos externos:** nenhum script, fonte, imagem ou folha de estilo de fora. Os únicos links externos são de navegação comum (mileumalinhas.com.br e o perfil do GitHub).
+- **Bibliotecas:** nenhuma entrou. Movimento, vidro, contadores e revelação ao rolar são CSS e JavaScript escritos à mão, desligados com `prefers-reduced-motion`.
+- **innerHTML:** 6 uso(s) que já existiam antes da leva; nenhum foi acrescentado. Eles só limpam listas ou montam HTML com dados fixos do próprio site e números calculados, nunca com texto digitado pelo visitante.
+- **eval e Function:** nenhum uso.
+- **Armazenamento:** o site não grava nada no navegador.
+- **Dados pessoais:** nenhum dado pessoal real entrou. Pessoas, empresas, telefones e endereços seguem fictícios. As fotos não retratam pessoas reais.
+- **Imagens:** arquivos webp locais em `img/`, com `width`/`height`, `loading="lazy"` e `decoding="async"`. Nenhuma é carregada de outro domínio.
+- **Testes:** `tests/site.cjs` passa em 1280x900, iPhone 13 e 320px, sem erro de console e sem rolagem horizontal.
