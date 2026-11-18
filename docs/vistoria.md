@@ -72,3 +72,7 @@ O site foi refeito no Padrão Premium a partir do modelo Prado. Mudou a forma de
 | Testes | `tests/site.cjs`: 113 verificações, 0 falhas, em 1280x900, iPhone 13, 320 px, com movimento reduzido e sem JavaScript. |
 
 Riscos residuais: os mesmos de antes (CSP por meta protege menos que por cabeçalho; o simulador é ilustrativo e está avisado). Um novo: o arquivo de programa passou de cerca de 30 KB para cerca de 228 KB (72 KB comprimido), por causa do React. O relevo em WebGL só liga depois que a página carregou.
+
+## Raio-X do ProfitizeBuild depois de publicar (17/11/2026): 78/100
+
+Velocidade 98, Celular 94, SEO 94, Pixel 11, Privacidade 72. A primeira tela aparece em 0,8 s no 4G. Pixel da Meta, Analytics, CNPJ, termos e política de privacidade não se aplicam a uma demonstração que não coleta dados. Ficam como melhorias possíveis: o contraste de dois textos pequenos ("empresa de exemplo" e a nota dos planos) e dados estruturados.
