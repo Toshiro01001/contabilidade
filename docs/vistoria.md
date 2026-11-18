@@ -50,3 +50,25 @@ Revisão feita depois de aplicar os design systems da leva final e encaixar as f
 - **Dados pessoais:** nenhum dado pessoal real entrou. Pessoas, empresas, telefones e endereços seguem fictícios. As fotos não retratam pessoas reais.
 - **Imagens:** arquivos webp locais em `img/`, com `width`/`height`, `loading="lazy"` e `decoding="async"`. Nenhuma é carregada de outro domínio.
 - **Testes:** `tests/site.cjs` passa em 1280x900, iPhone 13 e 320px, sem erro de console e sem rolagem horizontal.
+
+## Revisão de 17/11/2026 (site refeito em React, com WebGL)
+
+O site foi refeito no Padrão Premium a partir do modelo Prado. Mudou a forma de construir, então a vistoria foi refeita do zero.
+
+| Ponto | Resultado |
+|---|---|
+| CSP | A mesma política de antes, sem afrouxar: `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'`. O `404.html` segue com `script-src 'none'`. |
+| Violações de CSP na prática | Nenhuma. Os testes escutam o evento de violação nos três tamanhos de tela, com o relevo em WebGL ligado. |
+| Script e estilo inline | Nenhum `<script>` inline, nenhum `<style>`, nenhum atributo `style` no HTML. O programa aplica posições e larguras direto no elemento (CSSOM), o que a CSP permite. |
+| Envio de dados | Nenhum. No arquivo compilado não há `fetch`, `XMLHttpRequest` nem `WebSocket`, e `connect-src 'none'` bloquearia qualquer tentativa. O formulário não envia nada (teste automatizado). |
+| Armazenamento | Nenhum uso de `localStorage`, `sessionStorage`, cookies ou IndexedDB. |
+| Código perigoso | Nenhum `eval`, `new Function` ou `document.write` no arquivo compilado. O código da página não usa `innerHTML` nem `dangerouslySetInnerHTML`: a memória de cálculo, que antes era montada com `innerHTML`, agora é montada pelo React, que escapa todo texto. |
+| Dependências | React 18.3.1, React DOM 18.3.1 e Lenis 1.3.27, compiladas dentro de `assets/`. `npm audit` nas dependências de produção: 0 vulnerabilidades em 17/11/2026. Licenças em `licencas/`. |
+| WebGL | Shader próprio, sem biblioteca e sem textura externa. Sem WebGL2 a página funciona igual, com as colinas paradas. |
+| Fontes | Newsreader, Geist e Geist Mono servidas do próprio site (SIL OFL). |
+| Links externos | Só https://mileumalinhas.com.br, com `rel="noopener"`. |
+| Dados pessoais e segredos | Nenhum dado real. Nomes, CRC, endereço, telefone, depoimentos e preços são fictícios e marcados como tal no topo, no rodapé e nas seções. Nenhuma chave, token ou senha no repositório. |
+| Código-fonte | Fica no repositório privado. Aqui só entra a página compilada. |
+| Testes | `tests/site.cjs`: 113 verificações, 0 falhas, em 1280x900, iPhone 13, 320 px, com movimento reduzido e sem JavaScript. |
+
+Riscos residuais: os mesmos de antes (CSP por meta protege menos que por cabeçalho; o simulador é ilustrativo e está avisado). Um novo: o arquivo de programa passou de cerca de 30 KB para cerca de 228 KB (72 KB comprimido), por causa do React. O relevo em WebGL só liga depois que a página carregou.

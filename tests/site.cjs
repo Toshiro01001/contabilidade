@@ -52,8 +52,9 @@ async function testarViewport(browser, vp) {
   page.on("pageerror", (e) => erros.push(String(e)));
   page.on("requestfailed", (r) => erros.push("request failed: " + r.url()));
 
+  await page.addInitScript(() => { window.__csp = []; document.addEventListener("securitypolicyviolation", (e) => window.__csp.push(e.effectiveDirective + " " + e.blockedURI)); });
   await page.goto(BASE, { waitUntil: "networkidle" });
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(2600);
 
   ok(erros.length === 0, "sem erros de console" + (erros.length ? ": " + erros.join(" | ") : ""));
 
@@ -64,20 +65,37 @@ async function testarViewport(browser, vp) {
   ok(cortes.length === 0, "sem texto cortado" + (cortes.length ? ": " + cortes.join("; ") : ""));
 
   /* Fontes locais carregadas */
-  const fontes = await page.evaluate(() => Promise.all([document.fonts.check("700 20px Archivo"), document.fonts.check("500 20px 'IBM Plex Mono'")]));
-  ok(fontes[0] && fontes[1], "fontes Archivo e IBM Plex Mono carregadas");
+  const fontes = await page.evaluate(() => Promise.all([document.fonts.check("400 40px Newsreader"), document.fonts.check("500 16px Geist")]));
+  ok(fontes[0] && fontes[1], "fontes Newsreader e Geist carregadas");
 
-  const hero = await checarHero(page, ".hero-texto");
-  ok(hero.existe && hero.carregou, "foto do hero carregou (1440x1080)");
-  ok(hero.existe && hero.alt, "foto do hero tem alt descritivo");
-  ok(hero.existe && Math.abs(hero.proporcao - 1.33) < 0.02, `contêiner do hero em 4:3 (${hero.proporcao})`);
-  ok(hero.existe && hero.cabe && hero.sobreposto === 0, `foto cabe na tela e nenhum texto do hero fica sobre ela (${hero.sobreposto} sobreposições)`);
+  /* Primeira tela: um título principal, o painel e as colinas */
+  const topo = await page.evaluate(() => {
+    const h1 = document.querySelectorAll("h1");
+    const painel = document.querySelector(".hero-painel .app");
+    const colinas = document.querySelector(".hero-colinas-frente");
+    const r = painel ? painel.getBoundingClientRect() : null;
+    return { h1: h1.length, titulo: h1[0] ? h1[0].textContent.replace(/\s+/g, " ").trim() : "", painel: !!r && r.width > 200, colinas: !!colinas && colinas.getBoundingClientRect().height > 100,
+      webgl: !!document.querySelector(".hero-colinas-frente canvas"), temGl: (() => { try { return !!document.createElement("canvas").getContext("webgl2"); } catch (e) { return false; } })(),
+      simples: (document.querySelector(".app .cartao.is-melhor .cartao-valor") || {}).textContent || "" };
+  });
+  ok(topo.h1 === 1 && /Contabilidade que você\s?lê\s?sem dicionário\./.test(topo.titulo), "um título principal só (" + topo.titulo + ")");
+  ok(topo.painel && topo.colinas, "painel e colinas da primeira tela existem");
+  ok(topo.webgl === topo.temGl, "relevo em WebGL liga quando o aparelho tem WebGL2 (tem: " + topo.temGl + ", ligou: " + topo.webgl + ")");
+  ok(limpo(topo.simples) === "R$ 2.645,00", "painel do topo terminou a contagem em R$ 2.645,00 (obtido: " + limpo(topo.simples) + ")");
+  const dados = await page.$$eval(".hero-dados dd", (l) => l.map((e) => e.textContent.trim()));
+  ok(dados.join("|") === "312|4 dias|0", "números da abertura: " + dados.join(", "));
 
-  /* Abertura: os números do hero terminaram a contagem */
-  const empresas = await page.textContent(".hero-dados [data-conta='312']");
-  ok(limpo(empresas) === "312", "contagem da abertura terminou em 312 empresas (obtido: " + limpo(empresas) + ")");
-  const fechamento = await page.textContent(".hero-dados [data-conta='4']");
-  ok(limpo(fechamento) === "4 dias", "contagem da abertura terminou em 4 dias (obtido: " + limpo(fechamento) + ")");
+  /* O painel do topo e o simulador usam a mesma conta */
+  await page.$eval(".app-faixa input[type=range]", (el) => {
+    const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+    set.call(el, "80000"); el.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await page.waitForTimeout(200);
+  ok((await page.inputValue("#sim-faturamento")) === "80.000", "mexer no painel do topo muda o simulador (obtido: " + (await page.inputValue("#sim-faturamento")) + ")");
+  await page.click(".interruptor");
+  await page.waitForTimeout(150);
+  ok(await page.isChecked("input[name=regime][value=outros]"), "o interruptor do cartão muda o regime da calculadora de custo");
+  await page.click(".interruptor");
 
   /* Menu no celular */
   const menuVisivel = await page.isVisible(".menu-botao");
@@ -85,6 +103,7 @@ async function testarViewport(browser, vp) {
     await page.click(".menu-botao");
     ok(await page.isVisible("#menu a[href='#planos']"), "menu do celular abre");
     await page.click("#menu a[href='#planos']");
+    await page.waitForTimeout(700); /* a folha do menu leva meio segundo para sair */
     ok(!(await page.isVisible("#menu a[href='#planos']")), "menu do celular fecha ao escolher uma seção");
   }
 
@@ -178,6 +197,13 @@ async function testarViewport(browser, vp) {
   ok(await page.isVisible("#ct-resumo"), "contato: resumo aparece na tela");
   ok(limpo(await page.textContent("#contato-form .botao-conferir-texto")) === "Resumo pronto", "contato: botão termina em 'Resumo pronto'");
   ok(requisicoes === 0, "contato: nenhuma requisição externa");
+  const csp = await page.evaluate(() => window.__csp);
+  ok(csp.length === 0, "nenhuma violação da política de segurança (CSP)" + (csp.length ? ": " + csp.join(" | ") : ""));
+
+  /* Serviços: abrir e fechar uma linha */
+  const linha = page.locator(".servicos-lista button").nth(3);
+  await linha.click();
+  ok((await linha.getAttribute("aria-expanded")) === "true", "serviços: a linha abre ao tocar");
 
   /* Teclado: tab chega no botão do hero */
   await page.keyboard.press("Tab");
@@ -210,36 +236,32 @@ async function testarViewport(browser, vp) {
   await context.close();
 }
 
-// Foto do hero: carregou, tem a proporção 4:3 e o texto do hero não encosta nela (legibilidade).
-async function checarHero(page, contSel) {
-  return page.evaluate((contSel) => {
-    const img = document.querySelector("img.hero-foto");
-    if (!img) return { existe: false };
-    const r = img.getBoundingClientRect();
-    const caixa = img.parentElement.getBoundingClientRect();
-    const raiz = document.querySelector(contSel) || document;
-    let sobreposto = 0;
-    for (const t of raiz.querySelectorAll("h1, p, a, dl, dt, dd")) {
-      const b = t.getBoundingClientRect();
-      if (!b.width || !b.height) continue;
-      const w = Math.min(b.right, r.right) - Math.max(b.left, r.left);
-      const h = Math.min(b.bottom, r.bottom) - Math.max(b.top, r.top);
-      if (w > 1 && h > 1) sobreposto++;
-    }
-    return {
-      existe: true,
-      carregou: img.complete && img.naturalWidth === 1440 && img.naturalHeight === 1080,
-      alt: (img.getAttribute("alt") || "").length > 20,
-      proporcao: Math.round((caixa.width / caixa.height) * 100) / 100,
-      cabe: r.left >= -1 && r.right <= document.documentElement.clientWidth + 1,
-      sobreposto
-    };
-  }, contSel);
+// Movimento reduzido: nada fica escondido esperando animação, e o relevo desenha um quadro só.
+async function testarCalmo(browser) {
+  console.log("\n== movimento reduzido e sem JavaScript ==");
+  const c = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: "reduce", locale: "pt-BR" });
+  const p = await c.newPage();
+  await p.goto(BASE, { waitUntil: "networkidle" });
+  await p.waitForTimeout(800);
+  const escondidos = await p.evaluate(() => [...document.querySelectorAll(".linha, .sobe, .card, .card .vidro, .hero-painel")].filter((e) => {
+    const cs = getComputedStyle(e); return Number(cs.opacity) < 0.99 || (cs.transform !== "none" && cs.transform !== "matrix(1, 0, 0, 1, 0, 0)");
+  }).length);
+  ok(escondidos === 0, "com movimento reduzido tudo nasce no estado final (" + escondidos + " elementos fora do lugar)");
+  ok(/Agendado/.test(await p.textContent(".contas")), "com movimento reduzido o painel já mostra a guia agendada");
+  await c.close();
+  const s = await browser.newContext({ viewport: { width: 390, height: 800 }, javaScriptEnabled: false, locale: "pt-BR" });
+  const q = await s.newPage();
+  await q.goto(BASE);
+  ok((await q.locator("h1").count()) === 1 && /Contabilidade que você lê sem dicionário\./.test(await q.textContent("h1")), "sem JavaScript o título principal e o aviso aparecem");
+  const sw = await q.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth);
+  ok(sw, "sem JavaScript não há rolagem horizontal");
+  await s.close();
 }
 
 (async () => {
   const browser = await chromium.launch();
   for (const vp of VIEWPORTS) await testarViewport(browser, vp);
+  await testarCalmo(browser);
 
   if (CAPTURAS && PASTA_SHOTS) {
     fs.mkdirSync(PASTA_SHOTS, { recursive: true });
